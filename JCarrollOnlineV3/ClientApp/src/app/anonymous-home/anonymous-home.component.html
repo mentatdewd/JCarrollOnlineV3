@@ -1,0 +1,27 @@
+<div class="text-center">
+  <h1>Welcome to JCarrollOnline</h1>
+  <hr width="35%" />
+</div>
+<div>
+  <!--<p class="text-center">@Html.ActionLink("Sign up now!", "Register", "Account", null, new { @class = "btn btn-large btn-primary", @id = "registerLink" })</p>-->
+  <div class="row">
+    <div class="col text-center">
+      <a routerLink="/register" class="btn btn-large btn-primary text-center">
+        <b>Sign up now!</b>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="image_span">
+  <img class="image_span" src="../../assets/images/doubleblueline.gif" />
+</div>
+<app-latest-forum-threads></app-latest-forum-threads>
+<!--@Html.Partial("_LatestForumThreadsPartial", Model.LatestForumThreadsViewModel)-->
+<div class="image_span">
+  <img class="image_span" src="../../assets/images/doubleblueline.gif" />
+</div>
+<div class="text-center"><h2>Blog</h2></div>
+<section class="blogFeed">
+  <!--@Html.Partial("_BlogFeedPartial", Model.BlogFeed)-->
+</section>
