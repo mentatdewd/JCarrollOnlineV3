@@ -1,0 +1,159 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using JCarrollOnlineV3.Data;
+using JCarrollOnlineV3.Models;
+using JCarrollOnlineV3.ViewModels;
+using Omu.ValueInjecter;
+using JCarrollOnlineV3.Controllers.Helpers;
+
+namespace JCarrollOnlineV3.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ForaController : ControllerBase
+    {
+        private readonly JCarrollOnlineV3DbContext _context;
+
+        public ForaController(JCarrollOnlineV3DbContext context)
+        {
+            _context = context;
+        }
+
+        // GET: api/Fora
+        [HttpGet]
+        public async Task<ActionResult<ForaIndexItemViewModel[]>> GetFora()
+        {
+            List<ForaIndexItemViewModel> foraIndexItemViewModels = new List<ForaIndexItemViewModel>();
+            List<Forum> fora = await _context.Fora.ToListAsync();
+
+            foreach (Forum forum in fora)
+            {
+                ForaIndexItemViewModel foraIndexItemViewModel = new ForaIndexItemViewModel();
+
+                foraIndexItemViewModel.InjectFrom(forum);
+                foraIndexItemViewModel.ThreadCount = await ControllerHelpers.GetThreadCountAsync(forum, _context).ConfigureAwait(false);
+                foraIndexItemViewModel.LastThread = "Empty";
+                if (foraIndexItemViewModel.ThreadCount > 0)
+                {
+                    LastForumThread LastThread = await ControllerHelpers.GetLatestThreadDataAsync(forum, _context).ConfigureAwait(false);
+                    foraIndexItemViewModel.LastThread = LastThread.Forum.Title + ": " + LastThread.Title + "By - " + LastThread.Author.UserName;
+                }
+
+                foraIndexItemViewModels.Add(foraIndexItemViewModel);
+            }
+
+            return foraIndexItemViewModels.ToArray();
+        }
+
+        //// GET: api/Fora/5
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult<ForumThreadEntryIndexViewModel[]>> GetForum(int id)
+        //{
+        //    List<ForumThreadEntryIndexViewModel> forumThreadEntryViewModels = new List<ForumThreadEntryIndexViewModel>();
+
+        //    // Retrieve forum data
+        //    Forum currentForum = await _context.Fora
+        //        .Include(forum => forum.ForumThreadEntries
+        //        .Select(forumThreadEntry => forumThreadEntry.Author))
+        //        .FirstAsync(forum => forum.Id == id).ConfigureAwait(false);
+
+        //    //threadEntryIndexViewModel.Forum = new ForaViewModel();
+        //    //threadEntryIndexViewModel.Forum.InjectFrom(currentForum);
+
+        //    // Create the view model
+
+        //    foreach (ThreadEntry forumThread in currentForum.ForumThreadEntries.Where(forumThreadEntry => forumThreadEntry.ParentId == null))
+        //    {
+        //        ForumThreadEntryIndexViewModel forumThreadEntryViewModel = new ForumThreadEntryIndexViewModel();
+
+        //        forumThreadEntryViewModel.InjectFrom(forumThread);
+        //        forumThreadEntryViewModel.Forum.InjectFrom(currentForum);
+        //        forumThreadEntryViewModel.Author.InjectFrom(forumThread.Author);
+
+        //        forumThreadEntryViewModel.Replies = currentForum.ForumThreadEntries.Where(forumThreadEntry => forumThreadEntry.RootId == forumThread.Id && forumThreadEntry.ParentId != null).Count();
+        //        forumThreadEntryViewModel.LastReply = currentForum.ForumThreadEntries.Where(m => m.RootId == forumThread.Id).OrderBy(m => m.UpdatedAt.ToFileTime()).FirstOrDefault().UpdatedAt;
+        //        //forumThreadEntryViewModel.ThreadEntryIndex.Add(threadEntryIndexItemViewModel);
+        //        forumThreadEntryViewModels.Add(forumThreadEntryViewModel);
+        //    }
+
+        //    return forumThreadEntryViewModels.ToArray();
+        //}
+
+        // PUT: api/Fora/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutForum(int id, Forum forum)
+        {
+            if (id != forum.Id)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(forum).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ForumExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        // POST: api/Fora
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [HttpPost]
+        public async Task<ActionResult<ForumViewModel>> PostForum(ForumViewModel forumViewModel)
+        {
+            // Check for duplicate forum names here
+            Forum forum = new Forum();
+
+            forum.InjectFrom(forumViewModel);
+            forum.CreatedAt = DateTime.Now;
+            forum.UpdatedAt = DateTime.Now;
+
+            _context.Fora.Add(forum);
+            await _context.SaveChangesAsync();
+
+            return forumViewModel;
+        }
+
+        // DELETE: api/Fora/5
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Forum>> DeleteForum(int id)
+        {
+            Forum forum = await _context.Fora.FindAsync(id);
+            if (forum == null)
+            {
+                return NotFound();
+            }
+
+            _context.Fora.Remove(forum);
+            await _context.SaveChangesAsync();
+
+            return forum;
+        }
+
+        private bool ForumExists(int id)
+        {
+            return _context.Fora.Any(e => e.Id == id);
+        }
+    }
+}

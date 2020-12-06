@@ -1,1 +1,24 @@
 <p>fora works!</p>
+<table class='table table-striped' aria-labelledby="tableLabel">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Thread Count</th>
+      <th>Last Thread</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let forumIndexItemViewModel of forumIndexItemViewModels">
+      <td><a class="nav-link text-dark" [routerLink]="['/fora-query']" [queryParams]="{forumId: forumIndexItemViewModel.id}">{{ forumIndexItemViewModel.title }}</a></td>
+      <td>{{ forumIndexItemViewModel.description }}</td>
+      <td>{{ forumIndexItemViewModel.threadCount }}</td>
+      <td>{{ forumIndexItemViewModel.lastThread }}</td>
+    </tr>
+  </tbody>
+</table>
+<div class="col text-center">
+  <a *ngIf="this.isAuthenticated == true" routerLink="/forum-create" class="btn btn-large btn-primary text-center">
+    <b>Create Forum</b>
+  </a>
+</div>

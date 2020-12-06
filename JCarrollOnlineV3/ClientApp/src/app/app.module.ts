@@ -1,14 +1,16 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.module';
-import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
+//import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { AnonymousHomeComponent } from './anonymous-home/anonymous-home.component';
@@ -26,6 +28,12 @@ import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
 import { SandboxComponent } from './sandbox/sandbox.component';
 import { YellowstoneSlideshowComponent } from './yellowstone-slideshow/yellowstone-slideshow.component';
+import { ForaQueryComponent } from './fora-query/fora-query.component';
+import { ThreadPostCreateComponent } from './threadPost-create/threadPost-create.component';
+import { ForumCreateComponent } from './forum-create/forum-create.component';
+import { ThreadDetailsComponent } from './thread-details/thread-details.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { YellowstoneComponent } from './yellowstone/yellowstone.component';
 
 @NgModule({
   declarations: [
@@ -50,12 +58,18 @@ import { YellowstoneSlideshowComponent } from './yellowstone-slideshow/yellowsto
     AboutComponent,
     ContactComponent,
     SandboxComponent,
-    YellowstoneSlideshowComponent
+    YellowstoneSlideshowComponent,
+    ForaQueryComponent,
+    ThreadPostCreateComponent,
+    ForumCreateComponent,
+    ThreadDetailsComponent,
+    YellowstoneComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     ApiAuthorizationModule,
     RouterModule.forRoot([
       { path: '', component: WelcomeComponent, pathMatch: 'full' },
@@ -67,9 +81,15 @@ import { YellowstoneSlideshowComponent } from './yellowstone-slideshow/yellowsto
       { path: 'about', component: AboutComponent },
       { path: 'contact', component: ContactComponent },
       { path: 'sandbox', component: SandboxComponent },
-      { path: 'yellowstone-slideshow', component: YellowstoneSlideshowComponent }
-
-    ])
+      { path: 'yellowstone-slideshow', component: YellowstoneSlideshowComponent },
+      { path: 'fora-query', component: ForaQueryComponent },
+      { path: 'threadPost-create', component: ThreadPostCreateComponent },
+      { path: 'forum-create', component: ForumCreateComponent },
+    ]),
+    BrowserAnimationsModule
+  ],
+  exports: [
+    ScrollingModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }

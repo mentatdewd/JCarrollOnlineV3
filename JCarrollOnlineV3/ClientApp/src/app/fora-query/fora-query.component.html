@@ -1,0 +1,32 @@
+<p>fora-query works!</p>
+<h1 class="text-center">{{forumThreadEntryIndexViewModel.forumTitle}}</h1>
+<table class='table table-striped' aria-labelledby="tableLabel">
+  {{forumThreadEntryIndexViewModel.ForumTitle}}
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Replies</th>
+      <th>Author</th>
+      <th>Created On</th>
+      <th>Last Reply</th>
+      <th>Recs</th>
+      <th>Views</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let forumThreadEntry of forumThreadEntryIndexViewModel.forumThreadEntries">
+      <td><a class="nav-link text-dark" [routerLink]="['/threadPost-query']" [queryParams]="{Id: forumThreadEntry.Id, threadParentId: 0}">{{ forumThreadEntry.title }}</a></td>
+      <td>{{ forumThreadEntry.replies }}</td>
+      <td>{{ forumThreadEntry.author }}</td>
+      <td>{{ forumThreadEntry.createdAt }}</td>
+      <td>{{ forumThreadEntry.lastReply }}</td>
+      <td>{{ forumThreadEntry.recs }}</td>
+      <td>{{ forumThreadEntry.views }}</td>
+    </tr>
+  </tbody>
+</table>
+<div class="col text-center">
+  <a *ngIf="this.isAuthenticated == true" [routerLink]="['/threadPost-create']" [queryParams]="{forumId: passedForumId, threadParentId: 0}" queryParamsHandling="merge" class="btn btn-large btn-primary text-center">
+    <b>Create New Thread</b>
+  </a>
+</div>

@@ -4,14 +4,16 @@ using JCarrollOnlineV3.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JCarrollOnlineV3.Data.Migrations
 {
     [DbContext(typeof(JCarrollOnlineV3DbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201202182040_InitialForumSeed")]
+    partial class InitialForumSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -278,18 +280,10 @@ namespace JCarrollOnlineV3.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2020, 12, 2, 12, 1, 9, 147, DateTimeKind.Local).AddTicks(3776),
+                            CreatedAt = new DateTime(2020, 12, 2, 10, 20, 39, 918, DateTimeKind.Local).AddTicks(7205),
                             Description = "Test forum description",
                             Title = "Test forum",
-                            UpdatedAt = new DateTime(2020, 12, 2, 12, 1, 9, 151, DateTimeKind.Local).AddTicks(2098)
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CreatedAt = new DateTime(2020, 12, 2, 12, 1, 9, 151, DateTimeKind.Local).AddTicks(3005),
-                            Description = "Test forum 2 description",
-                            Title = "Test forum 2",
-                            UpdatedAt = new DateTime(2020, 12, 2, 12, 1, 9, 151, DateTimeKind.Local).AddTicks(3039)
+                            UpdatedAt = new DateTime(2020, 12, 2, 10, 20, 39, 922, DateTimeKind.Local).AddTicks(4473)
                         });
                 });
 

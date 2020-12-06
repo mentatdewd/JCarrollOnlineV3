@@ -58,6 +58,22 @@ namespace JCarrollOnlineV3.Data
                 .HasMany(hm => hm.BlogItems)
                 .WithOne(wo => wo.Author);
 
+            //modelBuilder.Entity<ApplicationUser>()
+            //    .HasData(new ApplicationUser
+            //    {
+            //        Id = Guid.NewGuid().ToString(),
+            //        Email = "testuser1@test.com",
+            //        EmailConfirmed = true,
+            //        LockoutEnabled = false,
+            //        MicroPostEmailNotifications = false,
+            //        NormalizedEmail = "testuser1@test.com",
+            //        NormalizedUserName = "testuser1",
+            //        UserName = "testname1",
+            //        MicroPostSmsNotifications = false,
+            //        PhoneNumber = "111-111-1111",
+            //        PhoneNumberConfirmed = true,
+            //    });
+
             modelBuilder.Entity<BlogItem>()
                 .HasMany(hm => hm.BlogItemComments);
 
@@ -76,12 +92,35 @@ namespace JCarrollOnlineV3.Data
                 .HasMany(hm => hm.ForumThreadEntries)
                 .WithOne(wo => wo.Forum);
 
+            modelBuilder.Entity<Forum>()
+                .HasData(new Forum
+                {
+                    Id = 1,
+                    Title = "Test forum",
+                    Description = "Test forum description",
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
+                }, new Forum
+                {
+                    Id = 2,
+                    Title = "Test forum 2",
+                    Description = "Test forum 2 description",
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
+                }) ;
+             
             modelBuilder.Entity<ForumModerator>();
 
             modelBuilder.Entity<ThreadEntry>()
                 .HasOne(k => k.Author)
                 .WithMany(m => m.ForumThreadEntries);
 
+            //modelBuilder.Entity<ThreadEntry>()
+            //    .HasData(new ThreadEntry
+            //    {
+            //        Id = 1,
+            //        Title = "Test thread entry 1 title",
+            //    });
             //modelBuilder.Entity<NLog>();
 
             base.OnModelCreating(modelBuilder);

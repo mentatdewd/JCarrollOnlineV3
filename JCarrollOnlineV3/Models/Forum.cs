@@ -29,6 +29,6 @@ namespace JCarrollOnlineV3.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         public virtual Collection<ThreadEntry> ForumThreadEntries { get; private set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public virtual Collection<ApplicationUser> ForumModerators { get; private set; }
+        public virtual Collection<ApplicationUser> ForumModerators { get; set; }
     }
 }
