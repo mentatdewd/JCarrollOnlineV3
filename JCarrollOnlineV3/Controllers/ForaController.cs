@@ -29,7 +29,16 @@ namespace JCarrollOnlineV3.Controllers
         public async Task<ActionResult<ForaIndexItemViewModel[]>> GetFora()
         {
             List<ForaIndexItemViewModel> foraIndexItemViewModels = new List<ForaIndexItemViewModel>();
-            List<Forum> fora = await _context.Fora.ToListAsync();
+            List<Forum> fora = null;
+
+            try
+            {
+                fora = await _context.Fora.ToListAsync();
+            }
+            catch(Exception exception)
+            {
+                Console.WriteLine($"Reading fora tabe threw an exception {exception.Message}");
+            }
 
             foreach (Forum forum in fora)
             {

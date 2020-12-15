@@ -1,0 +1,6 @@
+<section matLine>
+  <img ngxGravatar [email]="this.email" id="matcardimg">
+  {{ this.author }}
+</section>
+<section matLine class="microPostContent">{{ this.content }}</section>
+<section matLine class="microPostTimeAgo">Posted {{ (this.timeAgo | dateAgo) }}</section>

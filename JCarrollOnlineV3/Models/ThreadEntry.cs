@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace JCarrollOnlineV3.Models
 
 {
-    public class ThreadEntry
+    public class ThreadEntry : EntityBase
     {
         [Key]
         public int Id { get; set; }
@@ -16,12 +16,6 @@ namespace JCarrollOnlineV3.Models
         public string Content { get; set; }
 
         public bool Locked { get; set; }
-
-        [Required]
-        public DateTime CreatedAt { get; set; }
-
-        [Required]
-        public DateTime UpdatedAt { get; set; }
 
         [Required]
         public int PostNumber { get; set; }

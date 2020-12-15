@@ -4,14 +4,23 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
-import { ScrollingModule } from '@angular/cdk/scrolling';
+import { MatCardModule } from '@angular/material/card';
+import { MatListModule } from '@angular/material/list';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDividerModule } from '@angular/material/divider';
+import { GravatarModule } from 'ngx-gravatar';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.module';
+import { ApiAuthorizationModule } from '../api-authorization/api-authorization.module';
 //import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
-import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
+import { AuthorizeInterceptor } from '../api-authorization/authorize.interceptor';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { AnonymousHomeComponent } from './anonymous-home/anonymous-home.component';
 import { UserInfoComponent } from './user-info/user-info.component';
@@ -34,6 +43,14 @@ import { ForumCreateComponent } from './forum-create/forum-create.component';
 import { ThreadDetailsComponent } from './thread-details/thread-details.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { YellowstoneComponent } from './yellowstone/yellowstone.component';
+import { GravatarDirective } from './gravatar.directive';
+import { MicroPostItemComponent } from './micro-post-item/micro-post-item.component';
+import { MicroPostItemListComponent } from './micro-post-item-list/micro-post-item-list.component';
+import { DateAgoPipe } from './pipes/date-ago.pipe';
+import { MarinersRssFeedComponent } from './mariners-rss-feed/mariners-rss-feed.component';
+import { NavigationMenuComponent } from './navigation-menu/navigation-menu.component';
+import { SidenavListComponent } from './sidenav-list/sidenav-list.component';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
@@ -63,14 +80,33 @@ import { YellowstoneComponent } from './yellowstone/yellowstone.component';
     ThreadPostCreateComponent,
     ForumCreateComponent,
     ThreadDetailsComponent,
-    YellowstoneComponent
+    YellowstoneComponent,
+    GravatarDirective,
+    MicroPostItemComponent,
+    MicroPostItemListComponent,
+    DateAgoPipe,
+    MarinersRssFeedComponent,
+    NavigationMenuComponent,
+    SidenavListComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    GravatarModule,
     FormsModule,
+    MatListModule,
+    MatDividerModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatToolbarModule,
+    FlexLayoutModule,
     ReactiveFormsModule,
     ApiAuthorizationModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot([
       { path: '', component: WelcomeComponent, pathMatch: 'full' },
       { path: 'home', component: HomeComponent, canActivate: [AccessGuard] },
@@ -86,10 +122,8 @@ import { YellowstoneComponent } from './yellowstone/yellowstone.component';
       { path: 'threadPost-create', component: ThreadPostCreateComponent },
       { path: 'forum-create', component: ForumCreateComponent },
     ]),
-    BrowserAnimationsModule
   ],
   exports: [
-    ScrollingModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }

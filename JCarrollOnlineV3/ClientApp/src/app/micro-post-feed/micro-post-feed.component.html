@@ -1,1 +1,6 @@
-<p>micro-post-feed works!</p>
+<h2 class="text-center">Micro-Posts</h2>
+<div *ngIf="this.isContentLoaded">
+  <ul *ngFor="let microPost of microPosts.microPosts">
+    <app-micro-post-item [author]="microPost.author" [timeAgo]="microPost.createdAt" [email]="microPost.email" [content]="microPost.content"></app-micro-post-item>
+  </ul>
+</div>

@@ -1,15 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-yellowstone',
   templateUrl: './yellowstone.component.html',
-  styleUrls: ['./yellowstone.component.css']
+  styleUrls: ['./yellowstone.component.scss']
 })
-export class YellowstoneComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+export class YellowstoneComponent {
 }

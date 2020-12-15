@@ -6,12 +6,12 @@ namespace JCarrollOnlineV3.Controllers
 {
     public class OidcConfigurationController : Controller
     {
-        private readonly ILogger<OidcConfigurationController> logger;
+        private readonly ILogger<OidcConfigurationController> _logger;
 
         public OidcConfigurationController(IClientRequestParametersProvider clientRequestParametersProvider, ILogger<OidcConfigurationController> _logger)
         {
             ClientRequestParametersProvider = clientRequestParametersProvider;
-            logger = _logger;
+            this._logger = _logger;
         }
 
         public IClientRequestParametersProvider ClientRequestParametersProvider { get; }
@@ -19,7 +19,7 @@ namespace JCarrollOnlineV3.Controllers
         [HttpGet("_configuration/{clientId}")]
         public IActionResult GetClientRequestParameters([FromRoute] string clientId)
         {
-            var parameters = ClientRequestParametersProvider.GetClientParameters(HttpContext, clientId);
+            System.Collections.Generic.IDictionary<string, string> parameters = ClientRequestParametersProvider.GetClientParameters(HttpContext, clientId);
             return Ok(parameters);
         }
     }

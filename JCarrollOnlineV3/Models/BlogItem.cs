@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace JCarrollOnlineV3.Models
 {
-    public class BlogItem
+    public class BlogItem : EntityBase
     {
         [Key]
         public int Id { get; set; }
@@ -13,11 +13,6 @@ namespace JCarrollOnlineV3.Models
         public string Content { get; set; }
 
         public string Title { get; set; }
-
-        [Required]
-        public DateTime CreatedAt { get; set; }
-        [Required]
-        public DateTime UpdatedAt { get; set; }
 
         [Required]
         public virtual ApplicationUser Author { get; set; }

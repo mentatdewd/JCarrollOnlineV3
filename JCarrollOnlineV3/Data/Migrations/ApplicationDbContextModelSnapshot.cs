@@ -152,6 +152,9 @@ namespace JCarrollOnlineV3.Data.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("ScreenName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -195,6 +198,9 @@ namespace JCarrollOnlineV3.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
@@ -215,8 +221,8 @@ namespace JCarrollOnlineV3.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Author")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("AuthorId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("BlogItemId")
                         .HasColumnType("int");
@@ -229,6 +235,8 @@ namespace JCarrollOnlineV3.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AuthorId");
+
                     b.HasIndex("BlogItemId");
 
                     b.ToTable("BlogItemComments");
@@ -236,13 +244,29 @@ namespace JCarrollOnlineV3.Data.Migrations
 
             modelBuilder.Entity("JCarrollOnlineV3.Models.FollowersFollowing", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("FollowerId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FollowingId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("FollowerId", "FollowingId");
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FollowerId");
 
                     b.HasIndex("FollowingId");
 
@@ -258,6 +282,9 @@ namespace JCarrollOnlineV3.Data.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -278,18 +305,20 @@ namespace JCarrollOnlineV3.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2020, 12, 2, 12, 1, 9, 147, DateTimeKind.Local).AddTicks(3776),
+                            CreatedAt = new DateTime(2020, 12, 12, 7, 17, 14, 922, DateTimeKind.Local).AddTicks(8255),
+                            Deleted = false,
                             Description = "Test forum description",
                             Title = "Test forum",
-                            UpdatedAt = new DateTime(2020, 12, 2, 12, 1, 9, 151, DateTimeKind.Local).AddTicks(2098)
+                            UpdatedAt = new DateTime(2020, 12, 12, 7, 17, 14, 926, DateTimeKind.Local).AddTicks(4533)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2020, 12, 2, 12, 1, 9, 151, DateTimeKind.Local).AddTicks(3005),
+                            CreatedAt = new DateTime(2020, 12, 12, 7, 17, 14, 926, DateTimeKind.Local).AddTicks(5397),
+                            Deleted = false,
                             Description = "Test forum 2 description",
                             Title = "Test forum 2",
-                            UpdatedAt = new DateTime(2020, 12, 2, 12, 1, 9, 151, DateTimeKind.Local).AddTicks(3039)
+                            UpdatedAt = new DateTime(2020, 12, 12, 7, 17, 14, 926, DateTimeKind.Local).AddTicks(5428)
                         });
                 });
 
@@ -303,7 +332,10 @@ namespace JCarrollOnlineV3.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ForumId")
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("ForumId")
                         .HasColumnType("int");
 
                     b.Property<string>("ModeratorId")
@@ -313,6 +345,8 @@ namespace JCarrollOnlineV3.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ForumId");
 
                     b.HasIndex("ModeratorId");
 
@@ -336,6 +370,9 @@ namespace JCarrollOnlineV3.Data.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -363,6 +400,9 @@ namespace JCarrollOnlineV3.Data.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("ForumId")
                         .HasColumnType("int");
@@ -548,6 +588,10 @@ namespace JCarrollOnlineV3.Data.Migrations
 
             modelBuilder.Entity("JCarrollOnlineV3.Models.BlogItemComment", b =>
                 {
+                    b.HasOne("JCarrollOnlineV3.Models.ApplicationUser", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId");
+
                     b.HasOne("JCarrollOnlineV3.Models.BlogItem", "BlogItem")
                         .WithMany("BlogItemComments")
                         .HasForeignKey("BlogItemId")
@@ -559,27 +603,27 @@ namespace JCarrollOnlineV3.Data.Migrations
                 {
                     b.HasOne("JCarrollOnlineV3.Models.ApplicationUser", null)
                         .WithMany("FollowUsers")
-                        .HasForeignKey("FollowerId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .HasForeignKey("FollowerId");
 
                     b.HasOne("JCarrollOnlineV3.Models.ApplicationUser", null)
                         .WithMany("FollowingUsers")
-                        .HasForeignKey("FollowingId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .HasForeignKey("FollowingId");
                 });
 
             modelBuilder.Entity("JCarrollOnlineV3.Models.ForumModerator", b =>
                 {
-                    b.HasOne("JCarrollOnlineV3.Models.ApplicationUser", null)
+                    b.HasOne("JCarrollOnlineV3.Models.Forum", "Forum")
+                        .WithMany()
+                        .HasForeignKey("ForumId");
+
+                    b.HasOne("JCarrollOnlineV3.Models.ApplicationUser", "Moderator")
                         .WithMany("ForumsModerated")
                         .HasForeignKey("ModeratorId");
                 });
 
             modelBuilder.Entity("JCarrollOnlineV3.Models.MicroPost", b =>
                 {
-                    b.HasOne("JCarrollOnlineV3.Models.ApplicationUser", null)
+                    b.HasOne("JCarrollOnlineV3.Models.ApplicationUser", "Author")
                         .WithMany("MicroPosts")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)

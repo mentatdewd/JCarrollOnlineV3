@@ -1,7 +1,6 @@
 <p>fora-query works!</p>
-<h1 class="text-center">{{forumThreadEntryIndexViewModel.forumTitle}}</h1>
+<h1 class="text-center">{{forumThreadEntryIndexViewModel.ForumTitle}}</h1>
 <table class='table table-striped' aria-labelledby="tableLabel">
-  {{forumThreadEntryIndexViewModel.ForumTitle}}
   <thead>
     <tr>
       <th>Title</th>
@@ -14,7 +13,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let forumThreadEntry of forumThreadEntryIndexViewModel.forumThreadEntries">
+    <tr *ngFor="let forumThreadEntry of forumThreadEntryIndexViewModel.ForumThreadEntries">
       <td><a class="nav-link text-dark" [routerLink]="['/threadPost-query']" [queryParams]="{Id: forumThreadEntry.Id, threadParentId: 0}">{{ forumThreadEntry.title }}</a></td>
       <td>{{ forumThreadEntry.replies }}</td>
       <td>{{ forumThreadEntry.author }}</td>

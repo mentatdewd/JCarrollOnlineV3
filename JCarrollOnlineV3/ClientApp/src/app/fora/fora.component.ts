@@ -6,7 +6,7 @@ import { AuthorizeService } from '../../api-authorization/authorize.service';
 @Component({
   selector: 'app-fora',
   templateUrl: './fora.component.html',
-  styleUrls: ['./fora.component.css']
+  styleUrls: ['./fora.component.scss']
 })
 
 export class ForaComponent {

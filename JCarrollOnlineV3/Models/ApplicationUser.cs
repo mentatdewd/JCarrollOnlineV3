@@ -5,13 +5,14 @@ namespace JCarrollOnlineV3.Models
 {
     public class ApplicationUser : IdentityUser
     {
+        public string ScreenName { get; set; }
         public bool MicroPostEmailNotifications { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Sms")]
         public bool MicroPostSmsNotifications { get; set; }
 
-        public virtual ICollection<BlogItem> BlogItems { get; set; }
 
         // Navigation Property
+        public virtual ICollection<BlogItem> BlogItems { get; set; }
         public virtual ICollection<ThreadEntry> ForumThreadEntries { get; } = new List<ThreadEntry>();
         public virtual ICollection<ForumModerator> ForumsModerated { get; set; }
 

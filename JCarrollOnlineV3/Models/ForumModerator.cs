@@ -5,12 +5,10 @@ using System.Threading.Tasks;
 
 namespace JCarrollOnlineV3.Models
 {
-    public class ForumModerator
+    public class ForumModerator : EntityBase
     {
         public int Id { get; set; }
-        public string ModeratorId { get; set; }
-        public int ForumId { get; set; }
-        public DateTime CreatedAt { get; set; }//  :null => false
-        public DateTime UpdatedAt { get; set; }//   :null => false
+        public virtual Forum Forum { get; set; }
+        public virtual ApplicationUser Moderator { get; set; }
     }
 }

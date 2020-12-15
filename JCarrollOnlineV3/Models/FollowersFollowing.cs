@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 
 namespace JCarrollOnlineV3.Models
 {
-    public class FollowersFollowing
+    public class FollowersFollowing : EntityBase
     {
+        public int Id { get; set; }
         public string FollowingId { get; set; }
         public string FollowerId { get; set; }
     }

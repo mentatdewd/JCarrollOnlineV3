@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JCarrollOnlineV3.Models
 {
-    public class MicroPost
+    public class MicroPost : EntityBase
     {
         public int Id { get; set; }
 
@@ -15,14 +15,6 @@ namespace JCarrollOnlineV3.Models
         public string Content { get; set; }
 
         [Required]
-        public string AuthorId { get; set; }
-
-        [DataType(DataType.DateTime)]
-        [Required]
-        public DateTime CreatedAt { get; set; } // :null => false
-
-        [DataType(DataType.DateTime)]
-        [Required]
-        public DateTime UpdatedAt { get; set; } // :null => false
+        public virtual ApplicationUser Author { get; set; }
     }
 }

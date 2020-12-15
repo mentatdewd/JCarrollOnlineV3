@@ -1,4 +1,4 @@
-import { Component,  Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -7,7 +7,7 @@ import { Location } from '@angular/common';
 @Component({
   selector: 'app-forum-create',
   templateUrl: './forum-create.component.html',
-  styleUrls: ['./forum-create.component.css']
+  styleUrls: ['./forum-create.component.scss']
 })
 export class ForumCreateComponent {
   title = 'Create Forum';
@@ -16,8 +16,7 @@ export class ForumCreateComponent {
   httpClient: HttpClient;
   urlBase: string;
 
-  constructor(private location: Location, private router: Router, private route: ActivatedRoute, http: HttpClient, @Inject('BASE_URL') baseUrl: string)
-  {
+  constructor(private location: Location, private router: Router, private route: ActivatedRoute, http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.createForumForm = new FormGroup({
       title: new FormControl('', Validators.compose([Validators.required])),
       description: new FormControl(),
@@ -38,7 +37,7 @@ export class ForumCreateComponent {
 
       this.location.back();
     }, error => console.error(error));
-    }
+  }
 }
 
 interface CreateForumViewModel {

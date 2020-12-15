@@ -1,0 +1,9 @@
+<section>
+    <img src="../assets/images/feed-icon-28x28.png" class="rsslogo" />
+    <h3 style="float: right"> Mariners News </h3>
+</section>
+<mat-nav-list class="rss-feed-list">
+  <a mat-list-item href="{{o.link[0]}}" *ngFor="let o of RssData?.rss.channel[0].item">
+  <span style="font-size:medium; color:cornflowerblue; padding-top:10px;">{{o.title[0]}}</span> </a>
+  <mat-divider style="height:4px; color:mediumblue;"></mat-divider>
+</mat-nav-list>

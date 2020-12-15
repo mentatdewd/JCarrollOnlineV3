@@ -1,0 +1,44 @@
+<mat-toolbar color="primary">
+  <div fxHide.gt-xs>
+    <button mat-icon-button (click)="this.onToggleSidenav()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </div>
+  <div>
+    <a routerLink="/home" class="navigationItem">JCarrollOnline</a>
+  </div>
+  <div>
+    <a routerLink="/users" class="navigationItem">Users</a>
+  </div>
+  <div>
+    <a routerLink="/fora" class="navigationItem">Fora</a>
+  </div>
+  <div>
+    <a routerLink="/profile" class="navigationItem">Profile</a>
+  </div>
+  <div>
+    <a routerLink="/about" class="navigationItem">About</a>
+  </div>
+  <div>
+    <a routerLink="/contact" class="navigationItem">Contact</a>
+  </div>
+  <div>
+    <a routerLink="/sandbox" class="navigationItem">Sandbox</a>
+  </div>
+  <div>
+    <a routerLink="/yellowstone-slideshow" class="navigationItem">Yellowstone Slideshow</a>
+  </div>
+  <div>
+    <a routerLink="/blog" class="navigationItem">Blog</a>
+  </div>
+  <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
+    <ul fxLayout fxLayoutGap="15px" class="navigation-items">
+      <li>
+        <a routerLink="/owner">Register</a>
+      </li>
+      <li>
+        <a routerLink="/account">Log In</a>
+      </li>
+    </ul>
+  </div>
+</mat-toolbar>

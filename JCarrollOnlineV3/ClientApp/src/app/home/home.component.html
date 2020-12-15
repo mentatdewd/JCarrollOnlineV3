@@ -1,32 +1,23 @@
-<div class="container">
-  <div class="row" xmlns="http://www.w3.org/1999/html">
-    <aside class="col-md-4">
-      <section>
-        <!--@Html.Partial("_UserInfoPartial", Model.UserInfoViewModel)-->
-      </section>
-      <section>
-        <!--@Html.Partial("_UserStatsPartial", Model.UserStatsViewModel)-->
-      </section>
-      <section>
-        <!--@Html.Partial("_MicroPostFormPartial", Model.MicroPostCreateViewModel)-->
-      </section>
-      <section>
-        <!--@Html.Partial("_LatestForumThreadsPartial", Model.LatestForumThreadsViewModel)-->
-      </section>
-    </aside>
-    <div class="col-md-5">
-      <h2>Micro-Posts</h2>
-      <!--@Html.Partial("_MicroPostFeedPartial", Model.MicroPostFeedViewModel)-->
-    </div>
-    <aside class="col-md-3">
-      <!--@Html.Partial("_RssFeedPartial", Model.RssFeedViewModel)-->
-    </aside>
+<div id="layoutContainer" ng-controller="layoutController as ctrl"
+     layout="row" style="height:100px;" ng-cloak layout-wrap>
+  <div flex="30" class="green box">
+    <app-user-info></app-user-info>
+    <app-micro-post-form></app-micro-post-form>
   </div>
-  <hr />
-  <div class="col-md-12">
-    <div class="blogFeed">
-      <h1>Blog</h1>
-      <!--@Html.Partial("_BlogFeedPartial", Model.BlogFeed)-->
-    </div>
+
+  <div flex="45" class="blue box">
+    <app-micro-post-feed></app-micro-post-feed>
+  </div>
+
+  <div flex="25" class="green box">
+    <app-mariners-rss-feed></app-mariners-rss-feed>
+  </div>
+
+  <div flex="33" class="green box">
+Latest forum posts
+  </div>
+
+  <div flex="66" class="blue box">
+    blog
   </div>
 </div>

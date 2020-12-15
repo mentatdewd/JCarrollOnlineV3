@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace JCarrollOnlineV3.Models
 {
     [Table("Fora")]
-    public class Forum
+    public class Forum : EntityBase
     {
         [Required]
         public int Id { get; set; }
@@ -17,14 +17,6 @@ namespace JCarrollOnlineV3.Models
 
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
-
-        [DataType(DataType.DateTime)]
-        [Required]
-        public DateTime CreatedAt { get; set; } // :null => false
-
-        [DataType(DataType.DateTime)]
-        [Required]
-        public DateTime UpdatedAt { get; set; } //:null => false
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         public virtual Collection<ThreadEntry> ForumThreadEntries { get; private set; }

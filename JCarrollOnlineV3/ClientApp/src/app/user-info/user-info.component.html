@@ -1,1 +1,8 @@
-<p>user-info works!</p>
+<mat-card class="gravatar-card" id="matcard">
+  <section>
+    <img mat-card-avatar ngxGravatar [email]="(email | async)" id="matcardimg"> {{ userName | async }}
+  </section>
+  <section>
+    <span>This is where the user stats go</span>
+  </section>
+</mat-card>

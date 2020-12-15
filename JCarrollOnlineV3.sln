@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.30406.217
+VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JCarrollOnlineV3", "JCarrollOnlineV3\JCarrollOnlineV3.csproj", "{9693BE18-8563-4C6B-A59C-100B004731A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JCarrollOnlineV3", "JCarrollOnlineV3\JCarrollOnlineV3.csproj", "{CAB4B433-2285-4192-B7F0-C8D96C1331DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9693BE18-8563-4C6B-A59C-100B004731A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9693BE18-8563-4C6B-A59C-100B004731A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9693BE18-8563-4C6B-A59C-100B004731A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9693BE18-8563-4C6B-A59C-100B004731A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAB4B433-2285-4192-B7F0-C8D96C1331DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAB4B433-2285-4192-B7F0-C8D96C1331DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAB4B433-2285-4192-B7F0-C8D96C1331DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAB4B433-2285-4192-B7F0-C8D96C1331DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {ADA6CE10-E057-4397-8107-769266535406}
+		SolutionGuid = {85DCC0CD-4DF1-45BE-9CD8-0333490C1CFB}
 	EndGlobalSection
 EndGlobal

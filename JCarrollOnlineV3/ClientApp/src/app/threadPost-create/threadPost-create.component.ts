@@ -1,13 +1,13 @@
 import { Component, Inject } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-threadPost-create',
   templateUrl: './threadPost-create.component.html',
-  styleUrls: ['./threadPost-create.component.css']
+  styleUrls: ['./threadPost-create.component.scss']
 })
 
 export class ThreadPostCreateComponent {
