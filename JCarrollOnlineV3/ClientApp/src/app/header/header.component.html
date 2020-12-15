@@ -31,13 +31,23 @@
   <div>
     <a routerLink="/blog" class="navigationItem">Blog</a>
   </div>
-  <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
+  <div *ngIf="isAuthenticated | async" fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
     <ul fxLayout fxLayoutGap="15px" class="navigation-items">
       <li>
-        <a routerLink="/owner">Register</a>
+        <a [routerLink]='["/authentication/profile"]' title="Manage">Hello {{ userName | async }}</a>
       </li>
       <li>
-        <a routerLink="/account">Log In</a>
+        <a [routerLink]='["/authentication/logout"]' [state]='{ local: true }' title="Logout">Logout</a>
+      </li>
+    </ul>
+  </div>
+  <div *ngIf="!(isAuthenticated | async)" fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
+    <ul fxLayout fxLayoutGap="15px" class="navigation-items">
+      <li>
+        <a [routerLink]='["/authentication/register"]'>Register</a>
+      </li>
+      <li>
+        <a [routerLink]='["/authentication/login"]'>Login</a>
       </li>
     </ul>
   </div>
