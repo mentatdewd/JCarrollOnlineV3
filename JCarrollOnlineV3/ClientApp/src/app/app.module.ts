@@ -17,40 +17,38 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './homeArea/home/home.component';
 import { ApiAuthorizationModule } from '../api-authorization/api-authorization.module';
-//import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from '../api-authorization/authorize.interceptor';
-import { WelcomeComponent } from './welcome/welcome.component';
-import { AnonymousHomeComponent } from './anonymous-home/anonymous-home.component';
-import { UserInfoComponent } from './user-info/user-info.component';
-import { MicroPostFormComponent } from './micro-post-form/micro-post-form.component';
-import { LatestForumThreadsComponent } from './latest-forum-threads/latest-forum-threads.component';
-import { MicroPostFeedComponent } from './micro-post-feed/micro-post-feed.component';
+import { WelcomeComponent } from './homeArea/welcome/welcome.component';
+import { AnonymousHomeComponent } from './homeArea/anonymous-home/anonymous-home.component';
+import { UserInfoComponent } from './usersArea/user-info/user-info.component';
+import { MicroPostFormComponent } from './microPostsArea/micro-post-form/micro-post-form.component';
+import { LatestForumThreadsComponent } from './foraArea/latest-forum-threads/latest-forum-threads.component';
+import { MicroPostFeedComponent } from './microPostsArea/micro-post-feed/micro-post-feed.component';
 import { RssFeedComponent } from './rss-feed/rss-feed.component';
-import { BlogFeedComponent } from './blog-feed/blog-feed.component';
-import { AccessGuard } from './home/access.guard';
-import { UsersComponent } from './users/users.component';
-import { ForaComponent } from './fora/fora.component';
-import { ProfileComponent } from './profile/profile.component';
+import { BlogFeedComponent } from './blogArea/blog-feed/blog-feed.component';
+import { AccessGuard } from './homeArea/home/access.guard';
+import { UsersComponent } from './usersArea/users/users.component';
+import { ForaComponent } from './foraArea/fora/fora.component';
+import { ProfileComponent } from './usersArea/profile/profile.component';
 import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
 import { SandboxComponent } from './sandbox/sandbox.component';
 import { YellowstoneSlideshowComponent } from './yellowstone-slideshow/yellowstone-slideshow.component';
-import { ForaQueryComponent } from './fora-query/fora-query.component';
-import { ThreadPostCreateComponent } from './threadPost-create/threadPost-create.component';
-import { ForumCreateComponent } from './forum-create/forum-create.component';
-import { ThreadDetailsComponent } from './thread-details/thread-details.component';
+import { ForaQueryComponent } from './foraArea/fora-query/fora-query.component';
+import { ThreadPostCreateComponent } from './foraArea/threadPost-create/threadPost-create.component';
+import { ForumCreateComponent } from './foraArea/forum-create/forum-create.component';
+import { ThreadDetailsComponent } from './foraArea/thread-details/thread-details.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { YellowstoneComponent } from './yellowstone/yellowstone.component';
 import { GravatarDirective } from './gravatar.directive';
-import { MicroPostItemComponent } from './micro-post-item/micro-post-item.component';
-import { MicroPostItemListComponent } from './micro-post-item-list/micro-post-item-list.component';
+import { MicroPostItemComponent } from './microPostsArea/micro-post-item/micro-post-item.component';
+import { MicroPostItemListComponent } from './microPostsArea/micro-post-item-list/micro-post-item-list.component';
 import { DateAgoPipe } from './pipes/date-ago.pipe';
 import { MarinersRssFeedComponent } from './mariners-rss-feed/mariners-rss-feed.component';
-import { NavigationMenuComponent } from './navigation-menu/navigation-menu.component';
-import { SidenavListComponent } from './sidenav-list/sidenav-list.component';
-import { HeaderComponent } from './header/header.component';
+import { NavigationMenuComponent } from './navagationArea/navigation-menu/navigation-menu.component';
+import { SidenavListComponent } from './navagationArea/sidenav-list/sidenav-list.component';
+import { HeaderComponent } from './navagationArea/header/header.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +78,6 @@ import { HeaderComponent } from './header/header.component';
     ThreadPostCreateComponent,
     ForumCreateComponent,
     ThreadDetailsComponent,
-    YellowstoneComponent,
     GravatarDirective,
     MicroPostItemComponent,
     MicroPostItemListComponent,
