@@ -1,23 +1,27 @@
-<div id="layoutContainer" ng-controller="layoutController as ctrl"
-     layout="row" style="height:100px;" ng-cloak layout-wrap>
-  <div flex="30" class="green box">
-    <app-user-info></app-user-info>
-    <app-micro-post-form></app-micro-post-form>
+<div style="width: 100vw; height:100vh; margin-top: 20px">
+  <fxLayout fxLayout="row" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center" style="width:100vw; height:100vh">
+    <div fxFlexAlign="left">
+      <div fxFlex="100%">
+        <app-user-info></app-user-info>
+        <app-micro-post-form></app-micro-post-form>
+      </div>
+    </div>
+    <div fxFlex="40%">
+      <app-micro-post-feed></app-micro-post-feed>
+    </div>
+    <div fxFlex="20%">
+      <app-mariners-rss-feed></app-mariners-rss-feed>
+    </div>
+  </fxLayout>
+  <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+    <div fxFlex="40%">
+      Latest forum posts
+    </div>
   </div>
 
-  <div flex="45" class="blue box">
-    <app-micro-post-feed></app-micro-post-feed>
-  </div>
-
-  <div flex="25" class="green box">
-    <app-mariners-rss-feed></app-mariners-rss-feed>
-  </div>
-
-  <div flex="33" class="green box">
-Latest forum posts
-  </div>
-
-  <div flex="66" class="blue box">
-    blog
+  <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+    <div fxFlex="66%">
+      blog
+    </div>
   </div>
 </div>

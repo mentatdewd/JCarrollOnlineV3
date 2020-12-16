@@ -1,5 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Observable } from 'rxjs';
 import { AuthorizeService } from '../../../api-authorization/authorize.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -10,6 +12,7 @@ import { AuthorizeService } from '../../../api-authorization/authorize.service';
 export class HeaderComponent implements OnInit {
   @Output() public sidenavToggle = new EventEmitter();
   isAuthenticated: boolean;
+  userName: Observable<string>;
 
   constructor(private authorizeService: AuthorizeService) {
     this.authorizeService.isAuthenticated()
@@ -17,7 +20,8 @@ export class HeaderComponent implements OnInit {
         this.isAuthenticated = data;
       });
 
-  }
+    this.userName = this.authorizeService.getUser().pipe(map(u => u && u.name));
+ }
 
   ngOnInit(): void {
   }

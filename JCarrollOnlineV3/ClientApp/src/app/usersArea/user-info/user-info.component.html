@@ -1,8 +1,16 @@
 <mat-card class="gravatar-card" id="matcard">
-  <section>
-    <img mat-card-avatar ngxGravatar [email]="(email | async)" id="matcardimg"> {{ userName | async }}
-  </section>
-  <section>
-    <span>This is where the user stats go</span>
-  </section>
+  <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="left">
+    <div fxFlexAlign="left">
+      <div fxFlex="100%">
+        <img mat-card-avatar ngxGravatar [email]="(email | async)" id="matcardimg"> {{ userName | async }}
+      </div>
+    </div>
+  </div>
+  <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="left">
+    <div fxFlexAlign="left">
+      <div fxFlex="100%">
+        <span style="width: 100%">This is where the user stats go</span>
+      </div>
+    </div>
+  </div>
 </mat-card>
