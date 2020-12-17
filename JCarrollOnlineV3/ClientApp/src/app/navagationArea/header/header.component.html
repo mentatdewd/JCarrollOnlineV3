@@ -31,7 +31,7 @@
   <div>
     <a routerLink="/blog" class="navigationItem">Blog</a>
   </div>
-  <div *ngIf="this.isAuthenticated | async" fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
+  <div *ngIf="this.isAuthenticated" fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
     <ul fxLayout fxLayoutGap="15px" class="navigation-items">
       <li>
         <a [routerLink]='["/authentication/profile"]' title="Manage">Hello {{ userName | async }}</a>
@@ -41,7 +41,7 @@
       </li>
     </ul>
   </div>
-  <div *ngIf="!(this.isAuthenticated | async)" fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
+  <div *ngIf="!(this.isAuthenticated)" fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
     <ul fxLayout fxLayoutGap="15px" class="navigation-items">
       <li>
         <a [routerLink]='["/authentication/register"]'>Register</a>

@@ -4,6 +4,6 @@
 </section>
 <mat-nav-list class="rss-feed-list">
   <a mat-list-item href="{{o.link[0]}}" *ngFor="let o of RssData?.rss.channel[0].item">
-  <span style="font-size:medium; color:cornflowerblue; padding-top:10px;">{{o.title[0]}}</span> </a>
+  <span class="nav-link"style="padding-top:10px;">{{o.title[0]}}</span> </a>
   <mat-divider style="height:4px; color:mediumblue;"></mat-divider>
 </mat-nav-list>

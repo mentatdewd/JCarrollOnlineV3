@@ -12,7 +12,7 @@ import { Location } from '@angular/common';
 
 export class ThreadPostCreateComponent {
   title = 'Create Forum';
-  passedForumId: number;
+  forumId: number;
   threadParentId: number;
   createThreadPostViewModel: CreateThreadPostViewModel = { Title: "", Content: "", ForumId: 0, test2: 0 };
   createThreadPostForm: FormGroup;
@@ -23,7 +23,7 @@ export class ThreadPostCreateComponent {
   constructor(private location: Location, private route: ActivatedRoute, http: HttpClient, @Inject('BASE_URL') baseUrl: string)
   {
     this.route.queryParams.subscribe(params => {
-      this.passedForumId = params.forumId;
+      this.forumId = params.forumId;
       this.threadParentId = params.threadParentId;
       console.log(params);
     });
@@ -40,7 +40,7 @@ export class ThreadPostCreateComponent {
   onSubmit(formData) {
     this.createThreadPostViewModel.Title = formData['title'];
     this.createThreadPostViewModel.Content = formData['content']
-    this.createThreadPostViewModel.ForumId = this.passedForumId;
+    this.createThreadPostViewModel.ForumId = this.forumId;
     this.createThreadPostViewModel.test2 = this.threadParentId;
     const body = JSON.stringify(this.createThreadPostViewModel);
     const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');

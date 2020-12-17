@@ -14,6 +14,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort'
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -93,6 +96,7 @@ import { HeaderComponent } from './navagationArea/header/header.component';
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
+    MatTableModule,
     GravatarModule,
     FormsModule,
     MatListModule,
@@ -100,6 +104,8 @@ import { HeaderComponent } from './navagationArea/header/header.component';
     MatSidenavModule,
     MatIconModule,
     MatToolbarModule,
+    MatSortModule,
+    MatPaginatorModule,
     FlexLayoutModule,
     ReactiveFormsModule,
     ApiAuthorizationModule,

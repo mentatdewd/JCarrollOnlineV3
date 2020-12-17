@@ -1,24 +1,38 @@
-<p>fora works!</p>
-<table class='table table-striped' aria-labelledby="tableLabel">
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Description</th>
-      <th>Thread Count</th>
-      <th>Last Thread</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let forumIndexItemViewModel of forumIndexItemViewModels">
-      <td><a class="nav-link text-dark" [routerLink]="['/fora-query']" [queryParams]="{forumId: forumIndexItemViewModel.id}">{{ forumIndexItemViewModel.title }}</a></td>
-      <td>{{ forumIndexItemViewModel.description }}</td>
-      <td>{{ forumIndexItemViewModel.threadCount }}</td>
-      <td>{{ forumIndexItemViewModel.lastThread }}</td>
-    </tr>
-  </tbody>
-</table>
+<h1 class="text-center">Fora</h1>
+
+<mat-table class="fora" [dataSource]="dataSource">
+
+  <ng-container matColumnDef="title">
+    <mat-header-cell *matHeaderCellDef>Title</mat-header-cell>
+    <mat-cell *matCellDef="let forum"><a class="nav-link" [routerLink]="['/fora-query']" [queryParams]="{forumId: forum.id}">{{ forum.title }}</a></mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="description">
+    <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+    <mat-cell class="description-cell"
+              *matCellDef="let forum">{{forum.description}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="threadCount">
+    <mat-header-cell *matHeaderCellDef>Thread Count</mat-header-cell>
+    <mat-cell class="threadCount-cell"
+              *matCellDef="let forum">{{forum.threadCount}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="lastThread">
+    <mat-header-cell *matHeaderCellDef>Last Thread</mat-header-cell>
+    <mat-cell class="lastThread-cell"
+              *matCellDef="let forum">{{forum.lastThread}}</mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+</mat-table>
+
 <div class="col text-center">
-  <a *ngIf="this.isAuthenticated == true" routerLink="/forum-create" class="btn btn-large btn-primary text-center">
+  <a *ngIf="this.isAuthenticated == true" [routerLink]="['/forum-create']" [skipLocationChange]="true" class="btn btn-large btn-primary text-center">
     <b>Create Forum</b>
   </a>
 </div>

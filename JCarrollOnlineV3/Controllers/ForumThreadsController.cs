@@ -29,7 +29,7 @@ namespace JCarrollOnlineV3.Controllers
 
         // GET: api/ForumThread/5
         [HttpGet("{forumId}")]
-        public async Task<ActionResult<ForumThreadEntriesViewModel>> GetThreadEntry(int forumId)
+        public async Task<ActionResult<ForumThreadEntry[]>> GetThreadEntry(int forumId)
         {
             Forum currentForum = await _context.Fora.Include(a => a.ForumThreadEntries).ThenInclude(te => te.Author).FirstOrDefaultAsync(f => f.Id == forumId);
             List<ForumThreadEntry> forumThreadEntries = new List<ForumThreadEntry>();
@@ -53,7 +53,7 @@ namespace JCarrollOnlineV3.Controllers
             forumThreadEntriesViewModel.ForumTitle = currentForum.Title;
             forumThreadEntriesViewModel.ForumThreadEntries = forumThreadEntries.ToArray();
 
-            return forumThreadEntriesViewModel;
+            return forumThreadEntries.ToArray();
         }
 
         // PUT: api/ForumThread/5

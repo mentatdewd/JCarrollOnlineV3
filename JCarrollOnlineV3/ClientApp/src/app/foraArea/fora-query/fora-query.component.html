@@ -1,31 +1,56 @@
-<p>fora-query works!</p>
-<h1 class="text-center">{{forumThreadEntryIndexViewModel.ForumTitle}}</h1>
-<table class='table table-striped' aria-labelledby="tableLabel">
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Replies</th>
-      <th>Author</th>
-      <th>Created On</th>
-      <th>Last Reply</th>
-      <th>Recs</th>
-      <th>Views</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let forumThreadEntry of forumThreadEntryIndexViewModel.ForumThreadEntries">
-      <td><a class="nav-link text-dark" [routerLink]="['/threadPost-query']" [queryParams]="{Id: forumThreadEntry.Id, threadParentId: 0}">{{ forumThreadEntry.title }}</a></td>
-      <td>{{ forumThreadEntry.replies }}</td>
-      <td>{{ forumThreadEntry.author }}</td>
-      <td>{{ forumThreadEntry.createdAt }}</td>
-      <td>{{ forumThreadEntry.lastReply }}</td>
-      <td>{{ forumThreadEntry.recs }}</td>
-      <td>{{ forumThreadEntry.views }}</td>
-    </tr>
-  </tbody>
-</table>
+<h1 class="text-center">{{forumName}}</h1>
+
+<mat-table class="forumThreads" [dataSource]="dataSource">
+
+  <ng-container matColumnDef="title">
+    <mat-header-cell *matHeaderCellDef>Title</mat-header-cell>
+    <mat-cell *matCellDef="let forumThreadEntry"><a class="nav-link" [routerLink]="['/threadPost-query']" [queryParams]="{Id: forumThreadEntry.Id, threadParentId: 0}">{{ forumThreadEntry.title }}</a></mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="replies">
+    <mat-header-cell *matHeaderCellDef>Replies</mat-header-cell>
+    <mat-cell class="replies-cell"
+              *matCellDef="let forumThreadEntry">{{forumThreadEntry.replies}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="author">
+    <mat-header-cell *matHeaderCellDef>Author</mat-header-cell>
+    <mat-cell class="author-cell"
+              *matCellDef="let forumThreadEntry">{{forumThreadEntry.author}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="createdAt">
+    <mat-header-cell *matHeaderCellDef>Posted</mat-header-cell>
+    <mat-cell class="posted-cell"
+              *matCellDef="let forumThreadEntry">{{forumThreadEntry.createdAt}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="lastReply">
+    <mat-header-cell *matHeaderCellDef>Last Reply</mat-header-cell>
+    <mat-cell class="lastReply-cell"
+              *matCellDef="let forumThreadEntry">{{forumThreadEntry.lastReply}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="recs">
+    <mat-header-cell *matHeaderCellDef>Recs</mat-header-cell>
+    <mat-cell class="recs-cell"
+              *matCellDef="let forumThreadEntry">{{forumThreadEntry.recs}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="views">
+    <mat-header-cell *matHeaderCellDef>Views</mat-header-cell>
+    <mat-cell class="views-cell"
+              *matCellDef="let forumThreadEntry">{{forumThreadEntry.views}}</mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+</mat-table>
+
 <div class="col text-center">
-  <a *ngIf="this.isAuthenticated == true" [routerLink]="['/threadPost-create']" [queryParams]="{forumId: passedForumId, threadParentId: 0}" queryParamsHandling="merge" class="btn btn-large btn-primary text-center">
+  <a *ngIf="this.isAuthenticated == true" [routerLink]="['/threadPost-create']" [queryParams]="{forumId: passedForumId, threadParentId: 0}" skipLocationChange="true" true queryParamsHandling="merge" class="btn btn-large btn-primary text-center">
     <b>Create New Thread</b>
   </a>
 </div>
