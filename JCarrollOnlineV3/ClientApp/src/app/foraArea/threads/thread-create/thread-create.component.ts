@@ -5,20 +5,20 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-threadPost-create',
-  templateUrl: './threadPost-create.component.html',
-  styleUrls: ['./threadPost-create.component.scss']
+  selector: 'app-thread-create',
+  templateUrl: './thread-create.component.html',
+  styleUrls: ['./thread-create.component.scss']
 })
 
-export class ThreadPostCreateComponent {
+export class ThreadCreateComponent {
   title = 'Create Forum';
   forumId: number;
   threadParentId: number;
-  createThreadPostViewModel: CreateThreadPostViewModel = { Title: "", Content: "", ForumId: 0, test2: 0 };
-  createThreadPostForm: FormGroup;
+  threadCreateViewModel: ThreadCreateViewModel = { Title: "", Content: "", ForumId: 0, test2: 0 };
+  threadCreateForm: FormGroup;
   httpClient: HttpClient;
   urlBase: string;
-  createdThreadPostId: CreateThreadPostViewModel;
+  createdThreadId: ThreadCreateViewModel;
 
   constructor(private location: Location, private route: ActivatedRoute, http: HttpClient, @Inject('BASE_URL') baseUrl: string)
   {
@@ -28,7 +28,7 @@ export class ThreadPostCreateComponent {
       console.log(params);
     });
 
-    this.createThreadPostForm = new FormGroup({
+    this.threadCreateForm = new FormGroup({
       title: new FormControl(),
       content: new FormControl(),
     });
@@ -38,15 +38,15 @@ export class ThreadPostCreateComponent {
   }
 
   onSubmit(formData) {
-    this.createThreadPostViewModel.Title = formData['title'];
-    this.createThreadPostViewModel.Content = formData['content']
-    this.createThreadPostViewModel.ForumId = this.forumId;
-    this.createThreadPostViewModel.test2 = this.threadParentId;
-    const body = JSON.stringify(this.createThreadPostViewModel);
+    this.threadCreateViewModel.Title = formData['title'];
+    this.threadCreateViewModel.Content = formData['content']
+    this.threadCreateViewModel.ForumId = this.forumId;
+    this.threadCreateViewModel.test2 = this.threadParentId;
+    const body = JSON.stringify(this.threadCreateViewModel);
     const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
 
-    this.httpClient.post<CreateThreadPostViewModel>(this.urlBase + 'api/forumthreads/', body, { headers: headers }).subscribe(result => {
-      this.createdThreadPostId = result;
+    this.httpClient.post<ThreadCreateViewModel>(this.urlBase + 'api/forumthreads/', body, { headers: headers }).subscribe(result => {
+      this.createdThreadId = result;
 
       this.location.back();
       console.log('Returned result: ' + result);
@@ -54,11 +54,11 @@ export class ThreadPostCreateComponent {
   }
 }
 
-interface CreateThreadPostResult {
+interface CreateThreadResult {
   ThreadEntryId: number;
 }
 
-interface CreateThreadPostViewModel {
+interface ThreadCreateViewModel {
   Title: string;
   Content: string;
   ForumId: number;

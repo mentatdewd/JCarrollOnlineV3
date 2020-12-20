@@ -1,10 +1,10 @@
-<h1 class="text-center">{{forumName}}</h1>
+<h1 class="text-center">{{forumTitle}}</h1>
 
 <mat-table class="forumThreads" [dataSource]="dataSource">
 
   <ng-container matColumnDef="title">
     <mat-header-cell *matHeaderCellDef>Title</mat-header-cell>
-    <mat-cell *matCellDef="let forumThreadEntry"><a class="nav-link" [routerLink]="['/threadPost-query']" [queryParams]="{Id: forumThreadEntry.Id, threadParentId: 0}">{{ forumThreadEntry.title }}</a></mat-cell>
+    <mat-cell *matCellDef="let forumThreadEntry"><a class="nav-link" [routerLink]="['/thread']" [queryParams]="{rootId: forumThreadEntry.id, forumTitle: this.forumTitle}">{{ forumThreadEntry.title }}</a></mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="replies">
@@ -50,7 +50,7 @@
 </mat-table>
 
 <div class="col text-center">
-  <a *ngIf="this.isAuthenticated == true" [routerLink]="['/threadPost-create']" [queryParams]="{forumId: passedForumId, threadParentId: 0}" skipLocationChange="true" true queryParamsHandling="merge" class="btn btn-large btn-primary text-center">
+  <a *ngIf="this.isAuthenticated == true" [routerLink]="['/thread-create']" [queryParams]="{forumId: passedForumId, threadParentId: 0}" skipLocationChange="true" true queryParamsHandling="merge" class="btn btn-large btn-primary text-center">
     <b>Create New Thread</b>
   </a>
 </div>

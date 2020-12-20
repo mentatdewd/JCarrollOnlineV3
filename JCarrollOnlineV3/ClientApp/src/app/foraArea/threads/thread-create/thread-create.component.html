@@ -1,6 +1,6 @@
 <p>thread-create works!</p>
 <div class="container">
-  <form [formGroup]="createThreadPostForm" (ngSubmit)="onSubmit(createThreadPostForm.value)">
+  <form [formGroup]="threadCreateForm" (ngSubmit)="onSubmit(threadCreateForm.value)">
     <div class="form-group">
       <label for="title">Title</label>
       <input type="text" class="form-control" id="title"

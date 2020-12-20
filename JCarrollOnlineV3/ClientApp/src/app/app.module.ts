@@ -17,6 +17,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort'
+import { MatTreeModule } from '@angular/material/tree';
+
+import { CdkTreeModule } from '@angular/cdk/tree';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -40,9 +43,8 @@ import { ContactComponent } from './contact/contact.component';
 import { SandboxComponent } from './sandbox/sandbox.component';
 import { YellowstoneSlideshowComponent } from './yellowstone-slideshow/yellowstone-slideshow.component';
 import { ForaQueryComponent } from './foraArea/fora-query/fora-query.component';
-import { ThreadPostCreateComponent } from './foraArea/threadPost-create/threadPost-create.component';
+import { ThreadCreateComponent } from './foraArea/threads/thread-create/thread-create.component';
 import { ForumCreateComponent } from './foraArea/forum-create/forum-create.component';
-import { ThreadDetailsComponent } from './foraArea/thread-details/thread-details.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GravatarDirective } from './gravatar.directive';
 import { MicroPostItemComponent } from './microPostsArea/micro-post-item/micro-post-item.component';
@@ -52,6 +54,11 @@ import { MarinersRssFeedComponent } from './mariners-rss-feed/mariners-rss-feed.
 import { NavigationMenuComponent } from './navagationArea/navigation-menu/navigation-menu.component';
 import { SidenavListComponent } from './navagationArea/sidenav-list/sidenav-list.component';
 import { HeaderComponent } from './navagationArea/header/header.component';
+import { ThreadComponent } from './foraArea/threads/thread/thread.component';
+import { ThreadItemComponent } from './foraArea/threads/thread-item/thread-item.component';
+import { ThreadItemHeaderComponent } from './foraArea/threads/thread-item-header/thread-item-header.component';
+import { ThreadItemFooterComponent } from './foraArea/threads/thread-item-footer/thread-item-footer.component';
+import { ThreadItemContentComponent } from './foraArea/threads/thread-item-content/thread-item-content.component';
 
 @NgModule({
   declarations: [
@@ -78,9 +85,9 @@ import { HeaderComponent } from './navagationArea/header/header.component';
     SandboxComponent,
     YellowstoneSlideshowComponent,
     ForaQueryComponent,
-    ThreadPostCreateComponent,
+    ThreadCreateComponent,
     ForumCreateComponent,
-    ThreadDetailsComponent,
+    ThreadComponent,
     GravatarDirective,
     MicroPostItemComponent,
     MicroPostItemListComponent,
@@ -89,6 +96,11 @@ import { HeaderComponent } from './navagationArea/header/header.component';
     NavigationMenuComponent,
     SidenavListComponent,
     HeaderComponent,
+    ThreadComponent,
+    ThreadItemComponent,
+    ThreadItemHeaderComponent,
+    ThreadItemFooterComponent,
+    ThreadItemContentComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -106,6 +118,8 @@ import { HeaderComponent } from './navagationArea/header/header.component';
     MatToolbarModule,
     MatSortModule,
     MatPaginatorModule,
+    MatTreeModule,
+    CdkTreeModule,
     FlexLayoutModule,
     ReactiveFormsModule,
     ApiAuthorizationModule,
@@ -122,8 +136,9 @@ import { HeaderComponent } from './navagationArea/header/header.component';
       { path: 'sandbox', component: SandboxComponent },
       { path: 'yellowstone-slideshow', component: YellowstoneSlideshowComponent },
       { path: 'fora-query', component: ForaQueryComponent },
-      { path: 'threadPost-create', component: ThreadPostCreateComponent },
+      { path: 'thread-create', component: ThreadCreateComponent },
       { path: 'forum-create', component: ForumCreateComponent },
+      { path: 'thread', component: ThreadComponent },
     ]),
   ],
   exports: [

@@ -17,7 +17,7 @@ namespace JCarrollOnlineV3.ViewModels
 
         public DateTime UpdatedAt { get; set; } //:null => false
 
-        public ICollection<ForumThreadEntry> ForumThreadEntries { get; private set; }
+        public ICollection<ForumThreadSummaryViewModel> ForumThreadEntries { get; private set; }
         public ICollection<ForumModeratorsViewModel> ForumModerators { get; private set; }
     }
 }

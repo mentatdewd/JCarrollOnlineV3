@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace JCarrollOnlineV3.Models
@@ -20,14 +21,18 @@ namespace JCarrollOnlineV3.Models
         [Required]
         public int PostNumber { get; set; }
 
-        public int? ParentId { get; set; }
-
-        public int? RootId { get; set; }
-
         [Required]
         public virtual Forum Forum { get; set; }
 
         [Required]
         public virtual ApplicationUser Author { get; set; }
+
+        public virtual ThreadEntry Root { get; set; }
+
+#nullable enable
+        public virtual ThreadEntry? Parent { get; set; }
+#nullable disable
+
+        public virtual ICollection<ThreadEntry> Children { get; set; }
     }
 }

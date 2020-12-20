@@ -39,6 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\foraArea\threads\thread-data.model.ts" />
     <None Remove="ClientApp\src\app\mariners-rss-feed\news-rss.ts" />
   </ItemGroup>
 

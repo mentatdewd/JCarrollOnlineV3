@@ -4,14 +4,16 @@ using JCarrollOnlineV3.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JCarrollOnlineV3.Data.Migrations
 {
     [DbContext(typeof(JCarrollOnlineV3DbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201217221756_RefactorThreadPost")]
+    partial class RefactorThreadPost
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -305,20 +307,20 @@ namespace JCarrollOnlineV3.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2020, 12, 19, 10, 47, 28, 427, DateTimeKind.Local).AddTicks(9643),
+                            CreatedAt = new DateTime(2020, 12, 17, 14, 17, 56, 276, DateTimeKind.Local).AddTicks(6152),
                             Deleted = false,
                             Description = "Test forum description",
                             Title = "Test forum",
-                            UpdatedAt = new DateTime(2020, 12, 19, 10, 47, 28, 433, DateTimeKind.Local).AddTicks(2985)
+                            UpdatedAt = new DateTime(2020, 12, 17, 14, 17, 56, 280, DateTimeKind.Local).AddTicks(3230)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2020, 12, 19, 10, 47, 28, 433, DateTimeKind.Local).AddTicks(4247),
+                            CreatedAt = new DateTime(2020, 12, 17, 14, 17, 56, 280, DateTimeKind.Local).AddTicks(4099),
                             Deleted = false,
                             Description = "Test forum 2 description",
                             Title = "Test forum 2",
-                            UpdatedAt = new DateTime(2020, 12, 19, 10, 47, 28, 433, DateTimeKind.Local).AddTicks(4299)
+                            UpdatedAt = new DateTime(2020, 12, 17, 14, 17, 56, 280, DateTimeKind.Local).AddTicks(4132)
                         });
                 });
 

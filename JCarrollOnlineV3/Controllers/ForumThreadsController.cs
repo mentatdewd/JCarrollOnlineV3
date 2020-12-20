@@ -1,17 +1,13 @@
 ﻿using JCarrollOnlineV3.Data;
 using JCarrollOnlineV3.Models;
 using JCarrollOnlineV3.ViewModels;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 using Omu.ValueInjecter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace JCarrollOnlineV3.Controllers
@@ -28,30 +24,32 @@ namespace JCarrollOnlineV3.Controllers
         }
 
         // GET: api/ForumThread/5
-        [HttpGet("{forumId}")]
-        public async Task<ActionResult<ForumThreadEntry[]>> GetThreadEntry(int forumId)
+        [HttpGet("{rootId}/{parentId?}")]
+        public async Task<ActionResult<ThreadEntryViewModel[]>> GetThread(int rootId, int? parentId)
         {
-            Forum currentForum = await _context.Fora.Include(a => a.ForumThreadEntries).ThenInclude(te => te.Author).FirstOrDefaultAsync(f => f.Id == forumId);
-            List<ForumThreadEntry> forumThreadEntries = new List<ForumThreadEntry>();
+            List<ThreadEntryViewModel> forumThreadEntries = new List<ThreadEntryViewModel>();
+
+            ThreadEntry[] currentThread = await _context.ForumThreadEntrys.Where(cf => cf.Root.Id == rootId).Include(te => te.Author).Include(f => f.Forum).ToArrayAsync();
 
             // Create the view model
-            foreach (ThreadEntry threadEntry in currentForum.ForumThreadEntries)
+            foreach (ThreadEntry threadEntry in currentThread)
             {
-                ForumThreadEntry forumThreadEntry = new ForumThreadEntry();
+                ThreadEntryViewModel forumThreadEntry = new ThreadEntryViewModel();
 
                 forumThreadEntry.InjectFrom(threadEntry);
-
+                forumThreadEntry.ForumTitle = threadEntry.Forum.Title;
                 forumThreadEntry.Author = threadEntry.Author.UserName;
 
-                forumThreadEntry.Replies = currentForum.ForumThreadEntries.Where(forumThreadEntry => forumThreadEntry.RootId == threadEntry.Id && forumThreadEntry.ParentId != null).Count();
-                forumThreadEntry.LastReply = currentForum.ForumThreadEntries.Where(m => m.RootId == threadEntry.Id).OrderBy(m => m.UpdatedAt.ToFileTime()).FirstOrDefault().UpdatedAt;
+
+                forumThreadEntry.Replies = currentThread.Where(forumThreadEntry => forumThreadEntry.Root.Id == threadEntry.Id && forumThreadEntry.Parent != null).Count();
+                forumThreadEntry.LastReply = currentThread.Where(m => m.Root.Id == threadEntry.Id).OrderBy(m => m.UpdatedAt.ToFileTime()).FirstOrDefault().UpdatedAt;
+                if(forumThreadEntry.Children == null)
+                {
+                    forumThreadEntry.Children = new List<ThreadEntryViewModel>().ToArray();
+                }
+
                 forumThreadEntries.Add(forumThreadEntry);
             }
-
-            ForumThreadEntriesViewModel forumThreadEntriesViewModel = new ForumThreadEntriesViewModel();
-
-            forumThreadEntriesViewModel.ForumTitle = currentForum.Title;
-            forumThreadEntriesViewModel.ForumThreadEntries = forumThreadEntries.ToArray();
 
             return forumThreadEntries.ToArray();
         }
@@ -60,7 +58,7 @@ namespace JCarrollOnlineV3.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutThreadEntry(int id, ThreadEntry threadEntry)
+        public async Task<IActionResult> PutThreadEntry(int id, Models.ThreadEntry threadEntry)
         {
             if (id != threadEntry.Id)
             {
@@ -92,41 +90,38 @@ namespace JCarrollOnlineV3.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<ThreadEntryViewModel>> PostThreadEntry([FromBody] ThreadEntryViewModel threadEntryViewModel)
+        public async Task<ActionResult<ViewModels.ThreadEntryViewModel>> PostThreadEntry([FromBody] ViewModels.ThreadEntryViewModel threadEntryViewModel)
         {
             ThreadEntry threadEntry = new ThreadEntry();
 
             if (ModelState.IsValid)
             {
 
+                int parentId;
                 int rootId;
-                int forumId;
-                
-                if(int.TryParse(threadEntryViewModel.ParentThreadId, out rootId))
+
+                if (int.TryParse(threadEntryViewModel.RootId, out rootId))
                 {
-                    threadEntry.RootId = rootId;
+                    threadEntry.Root = await _context.ForumThreadEntrys.FirstOrDefaultAsync(fte => fte.Id == rootId);
                 }
 
-                if (int.TryParse(threadEntryViewModel.ForumId, out forumId))
+                if (int.TryParse(threadEntryViewModel.ParentThreadId, out parentId))
                 {
-                    threadEntry.Forum = await _context.Fora.FirstOrDefaultAsync(f => f.Id == forumId);
+                    threadEntry.Parent = await _context.ForumThreadEntrys.FirstOrDefaultAsync(fte => fte.Id == parentId);
                 }
+
+                string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                ApplicationUser currentUser = await _context.Users.FirstOrDefaultAsync(x => x.Id == currentUserId).ConfigureAwait(false);
+
+                threadEntry.Author = currentUser;
 
                 threadEntry.InjectFrom(threadEntryViewModel);
 
                 threadEntry.CreatedAt = DateTime.Now;
                 threadEntry.UpdatedAt = DateTime.Now;
 
-                string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                ApplicationUser currentUser = await _context.Users.FirstOrDefaultAsync(x => x.Id == currentUserId).ConfigureAwait(false);
-
-                threadEntry.Author = currentUser;
-                if (threadEntryViewModel != null)
-                {
-                    threadEntry.Forum = _context.Fora.Find(Int32.Parse(threadEntryViewModel.ForumId));
-                }
                 threadEntry.PostNumber = threadEntryViewModel.ParentThreadId != null
-                    ? await _context.ForumThreadEntrys.Where(m => m.RootId == threadEntry.RootId).CountAsync().ConfigureAwait(false) + 1
+                    ? await _context.ForumThreadEntrys.Where(m => m.Root.Id == rootId).CountAsync().ConfigureAwait(false) + 1
                     : 1;
 
                 _context.ForumThreadEntrys.Add(threadEntry);
@@ -135,15 +130,16 @@ namespace JCarrollOnlineV3.Controllers
                 {
                     await _context.SaveChangesAsync().ConfigureAwait(false);
                 }
-                catch(DbUpdateException exception)
+                catch (DbUpdateException exception)
                 {
                     Console.WriteLine($"SaveChangesAsync threw an exception Message: {exception.Message}");
                 }
 
-                if (threadEntry.ParentId == null)
+                if (threadEntry.Parent == null && threadEntry.Root != null)
                 {
                     threadEntry.UpdatedAt = threadEntry.CreatedAt;
-                    threadEntry.RootId = threadEntry.Id;
+
+                    threadEntry.Root.Id = threadEntry.Id;
                     await _context.SaveChangesAsync().ConfigureAwait(false);
                 }
             }
@@ -153,9 +149,9 @@ namespace JCarrollOnlineV3.Controllers
 
         // DELETE: api/ForumThread/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<ThreadEntry>> DeleteThreadEntry(int id)
+        public async Task<ActionResult<Models.ThreadEntry>> DeleteThreadEntry(int id)
         {
-            ThreadEntry threadEntry = await _context.ForumThreadEntrys.FindAsync(id);
+            Models.ThreadEntry threadEntry = await _context.ForumThreadEntrys.FindAsync(id);
             if (threadEntry == null)
             {
                 return NotFound();

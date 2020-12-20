@@ -14,12 +14,12 @@ import { Observable } from 'rxjs';
 })
 
 export class ForaQueryComponent implements OnInit {
-  public forumThreadEntries: Observable<ForumThreadEntryViewModel[]>;
+  //public forumThreadEntries: Observable<ForumThreadEntry[]>;
   public forumId: number;
-  public forumName: string;
+  public forumTitle: string;
   public isAuthenticated: boolean;
 
-  public dataSource = new MatTableDataSource<ForumThreadEntryViewModel>();
+  public dataSource = new MatTableDataSource<ForumThreadEntry>();
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
@@ -36,7 +36,7 @@ export class ForaQueryComponent implements OnInit {
 
     this.route.queryParams.subscribe(params => {
       this.forumId = params.forumId;
-      this.forumName = params.forumName;
+      this.forumTitle = params.forumTitle;
       console.log(params);
     });
 
@@ -47,12 +47,12 @@ export class ForaQueryComponent implements OnInit {
     }, error => console.error(error));
   }
 
-  public getThreads(): Observable<ForumThreadEntryViewModel[]> {
-    return this.http.get<ForumThreadEntryViewModel[]>(this.baseUrl + 'api/forumthreads/' + this.forumId.toString());
+  public getThreads(): Observable<ForumThreadEntry[]> {
+    return this.http.get<ForumThreadEntry[]>(this.baseUrl + 'api/fora/' + this.forumId.toString());
   }
 }
 
-interface ForumThreadEntryViewModel {
+interface ForumThreadEntry {
   Id: number;
   Title: string;
   CreatedAt: string;

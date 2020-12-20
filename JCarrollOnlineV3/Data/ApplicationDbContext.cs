@@ -51,6 +51,10 @@ namespace JCarrollOnlineV3.Data
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now
                 }) ;
+
+            modelBuilder.Entity<Models.ThreadEntry>()
+                .HasOne<Models.ThreadEntry>(te => te.Root)
+                .WithMany(children => children.Children);
              
             base.OnModelCreating(modelBuilder);
         }
@@ -58,7 +62,7 @@ namespace JCarrollOnlineV3.Data
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Forum> Fora { get; set; }
         public DbSet<ForumModerator> ForumModerators { get; set; }
-        public DbSet<ThreadEntry> ForumThreadEntrys { get; set; }
+        public DbSet<Models.ThreadEntry> ForumThreadEntrys { get; set; }
         //public DbSet<Micropost> MicroPosts { get; set; }
         public DbSet<BlogItem> BlogItems { get; set; }
         public DbSet<BlogItemComment> BlogItemComments { get; set; }

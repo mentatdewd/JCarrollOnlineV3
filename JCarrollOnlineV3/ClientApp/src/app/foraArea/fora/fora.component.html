@@ -4,7 +4,7 @@
 
   <ng-container matColumnDef="title">
     <mat-header-cell *matHeaderCellDef>Title</mat-header-cell>
-    <mat-cell *matCellDef="let forum"><a class="nav-link" [routerLink]="['/fora-query']" [queryParams]="{forumId: forum.id}">{{ forum.title }}</a></mat-cell>
+    <mat-cell *matCellDef="let forum"><a class="nav-link" [routerLink]="['/fora-query']" [queryParams]="{forumId: forum.id, forumTitle: forum.title}">{{ forum.title }}</a></mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="description">

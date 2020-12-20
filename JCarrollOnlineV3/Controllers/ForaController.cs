@@ -59,6 +59,30 @@ namespace JCarrollOnlineV3.Controllers
             return foraIndexItemViewModels.ToArray();
         }
 
+        [HttpGet("{forumId}")]
+        public async Task<ActionResult<ThreadEntryViewModel[]>> GetForum(int forumId)
+        {
+            List<ThreadEntryViewModel> forumThreadEntries = new List<ThreadEntryViewModel>();
+
+            Forum currentForum = await _context.Fora.Include(i => i.ForumThreadEntries).ThenInclude(i => i.Author).FirstOrDefaultAsync(cf => cf.Id == forumId);
+
+            // Create the view model
+            foreach (Models.ThreadEntry threadEntry in currentForum.ForumThreadEntries)
+            {
+                ThreadEntryViewModel forumThreadEntry = new ThreadEntryViewModel();
+
+                forumThreadEntry.InjectFrom(threadEntry);
+
+                forumThreadEntry.Author = threadEntry.Author.UserName;
+
+                forumThreadEntry.Replies = currentForum.ForumThreadEntries.Where(forumThreadEntry => forumThreadEntry.Root.Id == threadEntry.Id && forumThreadEntry.Parent != null).Count();
+                forumThreadEntry.LastReply = currentForum.ForumThreadEntries.Where(m => m.Root.Id == threadEntry.Id).OrderBy(m => m.UpdatedAt.ToFileTime()).FirstOrDefault().UpdatedAt;
+                forumThreadEntries.Add(forumThreadEntry);
+            }
+
+            return forumThreadEntries.ToArray();
+        }
+
         //// GET: api/Fora/5
         //[HttpGet("{id}")]
         //public async Task<ActionResult<ForumThreadEntryIndexViewModel[]>> GetForum(int id)

@@ -1,0 +1,27 @@
+<div class="forum_thread_header">
+  <header>
+    <div class="header_title">
+      <h3>{{node.title}}</h3>
+    </div>
+    <div class="user_info">
+      {{node.author}}
+      <div class="post_count">
+        {{node.postCount}} Posts: {{node.postNumber}}
+      </div>
+    </div>
+    <div class="threadinfo">
+      <div class="reply_to">
+        <div class="original_post" ngif="!node.parent">
+          Original Post
+        </div>
+        <div class="response_to" ngif="node.parent">
+          I think I have a parent
+          Response to {{node.parent?.postNumber}}
+        </div>
+        <div class="created_at">
+          {{node.createdAt}}
+        </div>
+      </div>
+    </div>
+  </header>
+</div>

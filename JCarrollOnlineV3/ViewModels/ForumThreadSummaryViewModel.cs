@@ -2,7 +2,7 @@
 
 namespace JCarrollOnlineV3.ViewModels
 {
-    public class ForumThreadEntry
+    public class ForumThreadSummaryViewModel
     {
         public int Id { get; set; }
         public string Title { get; set; }

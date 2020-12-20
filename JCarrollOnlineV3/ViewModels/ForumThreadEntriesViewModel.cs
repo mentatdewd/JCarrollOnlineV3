@@ -3,6 +3,6 @@
     public class ForumThreadEntriesViewModel
     {
         public string ForumTitle { get; set; }
-        public ForumThreadEntry[] ForumThreadEntries { get; set; }
+        public ForumThreadSummaryViewModel[] ForumThreadEntries { get; set; }
     }
 }

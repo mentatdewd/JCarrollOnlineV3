@@ -18,14 +18,14 @@ namespace JCarrollOnlineV3.Controllers.Helpers
         {
             return data == null
                 ? throw new ArgumentNullException(nameof(data))
-                : await data.ForumThreadEntrys.Where(i => i.RootId == thread).AsQueryable().CountAsync().ConfigureAwait(false);
+                : await data.ForumThreadEntrys.Where(i => i.Root.Id == thread).AsQueryable().CountAsync().ConfigureAwait(false);
         }
 
         public static async Task<int> GetThreadCountAsync(Forum forum, JCarrollOnlineV3DbContext data)
         {
             return data == null
                 ? throw new ArgumentNullException(nameof(data))
-                : await data.ForumThreadEntrys.Where(i => i.Forum.Id == forum.Id && i.ParentId == null).CountAsync().ConfigureAwait(false);
+                : await data.ForumThreadEntrys.Where(i => i.Forum.Id == forum.Id && i.Parent == null).CountAsync().ConfigureAwait(false);
         }
 
         public static async Task<DateTime> GetLastReplyAsync(int? rootId, JCarrollOnlineV3DbContext data)
@@ -37,7 +37,7 @@ namespace JCarrollOnlineV3.Controllers.Helpers
                     throw new ArgumentNullException(nameof(data));
                 }
 
-                ThreadEntry fte = await data.ForumThreadEntrys.Where(m => m.RootId == rootId).OrderByDescending(m => m.UpdatedAt).FirstOrDefaultAsync().ConfigureAwait(false);
+                Models.ThreadEntry fte = await data.ForumThreadEntrys.Where(m => m.Root.Id == rootId).OrderByDescending(m => m.UpdatedAt).FirstOrDefaultAsync().ConfigureAwait(false);
                 return fte.UpdatedAt;
             }
             else
@@ -55,10 +55,19 @@ namespace JCarrollOnlineV3.Controllers.Helpers
                 throw new ArgumentNullException(nameof(data));
             }
 
-            ThreadEntry forumThreadEntry = await data.ForumThreadEntrys.Where(i => i.Forum.Id == forum.Id)
+            Models.ThreadEntry forumThreadEntry = null;
+
+            try
+            {
+                forumThreadEntry = await data.ForumThreadEntrys.Where(i => i.Forum.Id == forum.Id)
                 .Include(i => i.Author)
                 .OrderByDescending(i => i.UpdatedAt)
                 .FirstOrDefaultAsync().ConfigureAwait(false);
+            }
+            catch(Exception exception)
+            {
+                Console.WriteLine($"ForumThreadEntrys query threw and exception: {exception.Message}");
+            }
 
             if (forumThreadEntry != null)
             {
@@ -70,14 +79,14 @@ namespace JCarrollOnlineV3.Controllers.Helpers
 
                 bool rootNotFound = true;
 
-                if (forumThreadEntry.ParentId != null)
+                if (forumThreadEntry.Parent?.Id != null)
                 {
                     while (rootNotFound)
                     {
-                        forumThreadEntry = await data.ForumThreadEntrys.FindAsync(forumThreadEntry.ParentId).ConfigureAwait(false);
+                        forumThreadEntry = await data.ForumThreadEntrys.FindAsync(forumThreadEntry.Parent?.Id).ConfigureAwait(false);
                         if (forumThreadEntry != null)
                         {
-                            if (forumThreadEntry.ParentId == null)
+                            if (forumThreadEntry.Parent?.Id == null)
                             {
                                 rootNotFound = false;
                             }
