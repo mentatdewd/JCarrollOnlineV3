@@ -24,12 +24,18 @@ namespace JCarrollOnlineV3.Controllers
         }
 
         // GET: api/ForumThread/5
-        [HttpGet("{rootId}/{parentId?}")]
-        public async Task<ActionResult<ThreadEntryViewModel[]>> GetThread(int rootId, int? parentId)
+        [HttpGet("{threadId}/{rootId?}/{parentId?}")]
+        public async Task<ActionResult<ThreadEntryViewModel[]>> GetThread(int threadId, int? rootId, int? parentId)
         {
             List<ThreadEntryViewModel> forumThreadEntries = new List<ThreadEntryViewModel>();
 
-            ThreadEntry[] currentThread = await _context.ForumThreadEntrys.Where(cf => cf.Root.Id == rootId).Include(te => te.Author).Include(f => f.Forum).ToArrayAsync();
+            List<ThreadEntry> currentThread = new List<ThreadEntry>();
+            currentThread.Add(await _context.ForumThreadEntrys.Where(cf => cf.Id == threadId).Include(te => te.Author).Include(f => f.Forum).FirstOrDefaultAsync());
+
+            if(rootId != null)
+            {
+                await _context.ForumThreadEntrys.Include(cf => cf.Author).Include(cf => cf.Forum).ForEachAsync(cf => currentThread.Add(cf));
+            }
 
             // Create the view model
             foreach (ThreadEntry threadEntry in currentThread)
@@ -41,9 +47,19 @@ namespace JCarrollOnlineV3.Controllers
                 forumThreadEntry.Author = threadEntry.Author.UserName;
 
 
-                forumThreadEntry.Replies = currentThread.Where(forumThreadEntry => forumThreadEntry.Root.Id == threadEntry.Id && forumThreadEntry.Parent != null).Count();
-                forumThreadEntry.LastReply = currentThread.Where(m => m.Root.Id == threadEntry.Id).OrderBy(m => m.UpdatedAt.ToFileTime()).FirstOrDefault().UpdatedAt;
-                if(forumThreadEntry.Children == null)
+                forumThreadEntry.Replies = currentThread.Where(forumThreadEntry => forumThreadEntry.Root  != null && forumThreadEntry.Root.Id == threadEntry.Id && forumThreadEntry.Parent != null).Count();
+                IOrderedEnumerable<ThreadEntry> children  = currentThread.Where(m => m.Root != null && m.Id == threadEntry.Id).OrderBy(m => m.UpdatedAt.ToFileTime());
+                
+                if (children.Count() > 0)
+                {
+                    forumThreadEntry.LastReply = children.FirstOrDefault().UpdatedAt;
+                }
+                else
+                {
+                    forumThreadEntry.LastReply = DateTime.Now;
+                }
+
+                if (forumThreadEntry.Children == null)
                 {
                     forumThreadEntry.Children = new List<ThreadEntryViewModel>().ToArray();
                 }
@@ -90,9 +106,14 @@ namespace JCarrollOnlineV3.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<ViewModels.ThreadEntryViewModel>> PostThreadEntry([FromBody] ViewModels.ThreadEntryViewModel threadEntryViewModel)
+        public async Task<ActionResult<ViewModels.ThreadEntryViewModel>> PostThreadEntry([FromBody] ThreadEntryViewModel threadEntryViewModel)
         {
             ThreadEntry threadEntry = new ThreadEntry();
+            int forumId;
+            if(!int.TryParse(threadEntryViewModel.ForumId, out forumId))
+            {
+                throw new InvalidOperationException("forumId is invalid");
+            }
 
             if (ModelState.IsValid)
             {
@@ -123,6 +144,8 @@ namespace JCarrollOnlineV3.Controllers
                 threadEntry.PostNumber = threadEntryViewModel.ParentThreadId != null
                     ? await _context.ForumThreadEntrys.Where(m => m.Root.Id == rootId).CountAsync().ConfigureAwait(false) + 1
                     : 1;
+
+                threadEntry.Forum = await _context.Fora.FirstOrDefaultAsync(f => f.Id == forumId);
 
                 _context.ForumThreadEntrys.Add(threadEntry);
 

@@ -9,6 +9,7 @@ namespace JCarrollOnlineV3.ViewModels
         public string RootId { get; set; }
         public string Content { get; set; }
         public string ForumTitle { get; set; }
+        public string ForumId { get; set; }
         public string ParentThreadId { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }

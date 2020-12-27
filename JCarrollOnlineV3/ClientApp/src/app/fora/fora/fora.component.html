@@ -1,0 +1,38 @@
+<h1 class="text-center">Fora</h1>
+
+<mat-table class="fora" [dataSource]="dataSource">
+
+  <ng-container matColumnDef="title">
+    <mat-header-cell *matHeaderCellDef>Title</mat-header-cell>
+    <mat-cell *matCellDef="let forum"><a class="nav-link" [routerLink]="['/fora-query']" [queryParams]="{forumId: forum.id, forumTitle: forum.title}">{{ forum.title }}</a></mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="description">
+    <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+    <mat-cell class="description-cell"
+              *matCellDef="let forum">{{forum.description}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="threadCount">
+    <mat-header-cell *matHeaderCellDef>Thread Count</mat-header-cell>
+    <mat-cell class="threadCount-cell"
+              *matCellDef="let forum">{{forum.threadCount}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="lastThread">
+    <mat-header-cell *matHeaderCellDef>Last Thread</mat-header-cell>
+    <mat-cell class="lastThread-cell"
+              *matCellDef="let forum">{{forum.lastThread}}</mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+</mat-table>
+
+<div class="col text-center">
+  <a *ngIf="this.isAuthenticated == true" [routerLink]="['/create-forum']" [skipLocationChange]="true" class="btn btn-large btn-primary text-center">
+    <b>Create Forum</b>
+  </a>
+</div>

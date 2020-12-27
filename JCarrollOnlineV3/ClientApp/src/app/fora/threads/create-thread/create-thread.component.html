@@ -1,0 +1,16 @@
+<div class="create_thread_title">
+  <h1>Create Thread in the {{this.forumTitle}} Forum</h1>
+</div>
+<form class="create_thread_form" (ngSubmit)="Submit()">
+  <div class="tp-container" [formGroup]="createThreadForm">
+    <mat-form-field appearance="standard">
+      <mat-label>Title</mat-label>
+      <input matInput placeholder="Thread Title" formControlName="title">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Content</mat-label>
+      <textarea matInput placeholder="Type content here" formControlName="content" rows="10"></textarea>
+    </mat-form-field>
+    <button class="btn btn-primary" type="submit" mat-raised-button color="accent">Submit</button>
+  </div>
+</form>

@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace JCarrollOnlineV3
 {
@@ -98,6 +99,7 @@ namespace JCarrollOnlineV3
                 // see https://go.microsoft.com/fwlink/?linkid=864501
 
                 spa.Options.SourcePath = "ClientApp";
+                spa.Options.StartupTimeout = new TimeSpan(0, 5, 0);
 
                 if (env.IsDevelopment())
                 {

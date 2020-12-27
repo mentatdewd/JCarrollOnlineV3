@@ -26,9 +26,9 @@ namespace JCarrollOnlineV3.Controllers
 
         // GET: api/Fora
         [HttpGet]
-        public async Task<ActionResult<ForaIndexItemViewModel[]>> GetFora()
+        public async Task<ActionResult<ForaViewModel[]>> GetFora()
         {
-            List<ForaIndexItemViewModel> foraIndexItemViewModels = new List<ForaIndexItemViewModel>();
+            List<ForaViewModel> foraIndexItemViewModels = new List<ForaViewModel>();
             List<Forum> fora = null;
 
             try
@@ -42,7 +42,7 @@ namespace JCarrollOnlineV3.Controllers
 
             foreach (Forum forum in fora)
             {
-                ForaIndexItemViewModel foraIndexItemViewModel = new ForaIndexItemViewModel();
+                ForaViewModel foraIndexItemViewModel = new ForaViewModel();
 
                 foraIndexItemViewModel.InjectFrom(forum);
                 foraIndexItemViewModel.ThreadCount = await ControllerHelpers.GetThreadCountAsync(forum, _context).ConfigureAwait(false);
@@ -69,15 +69,24 @@ namespace JCarrollOnlineV3.Controllers
             // Create the view model
             foreach (Models.ThreadEntry threadEntry in currentForum.ForumThreadEntries)
             {
-                ThreadEntryViewModel forumThreadEntry = new ThreadEntryViewModel();
+                ThreadEntryViewModel forumThreadEntryViewModel = new ThreadEntryViewModel();
 
-                forumThreadEntry.InjectFrom(threadEntry);
+                forumThreadEntryViewModel.InjectFrom(threadEntry);
 
-                forumThreadEntry.Author = threadEntry.Author.UserName;
+                forumThreadEntryViewModel.Author = threadEntry.Author.UserName;
 
-                forumThreadEntry.Replies = currentForum.ForumThreadEntries.Where(forumThreadEntry => forumThreadEntry.Root.Id == threadEntry.Id && forumThreadEntry.Parent != null).Count();
-                forumThreadEntry.LastReply = currentForum.ForumThreadEntries.Where(m => m.Root.Id == threadEntry.Id).OrderBy(m => m.UpdatedAt.ToFileTime()).FirstOrDefault().UpdatedAt;
-                forumThreadEntries.Add(forumThreadEntry);
+                forumThreadEntryViewModel.Replies = currentForum.ForumThreadEntries.Where(forumThreadEntry => forumThreadEntry.Root?.Id == threadEntry.Id && forumThreadEntry.Parent != null).Count();
+                IOrderedEnumerable<ThreadEntry> interim = currentForum.ForumThreadEntries.Where(m => m.Root?.Id == threadEntry.Id).OrderBy(m => m.UpdatedAt.ToFileTime());
+                if (interim.Count() > 0)
+                {
+                    forumThreadEntryViewModel.LastReply = interim.FirstOrDefault().UpdatedAt;
+                }
+                else
+                {
+                    forumThreadEntryViewModel.LastReply = DateTime.Now;
+                }    
+
+                forumThreadEntries.Add(forumThreadEntryViewModel);
             }
 
             return forumThreadEntries.ToArray();
