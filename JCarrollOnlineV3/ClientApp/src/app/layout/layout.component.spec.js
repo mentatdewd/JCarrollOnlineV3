@@ -37,15 +37,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var testing_1 = require("@angular/core/testing");
-var navigation_menu_component_1 = require("./navigation-menu.component");
-describe('NavigationMenuComponent', function () {
+var layout_component_1 = require("./layout.component");
+describe('LayoutComponent', function () {
     var component;
     var fixture;
     beforeEach(function () { return __awaiter(void 0, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, testing_1.TestBed.configureTestingModule({
-                        declarations: [navigation_menu_component_1.NavigationMenuComponent]
+                        declarations: [layout_component_1.LayoutComponent]
                     })
                         .compileComponents()];
                 case 1:
@@ -55,7 +55,7 @@ describe('NavigationMenuComponent', function () {
         });
     }); });
     beforeEach(function () {
-        fixture = testing_1.TestBed.createComponent(navigation_menu_component_1.NavigationMenuComponent);
+        fixture = testing_1.TestBed.createComponent(layout_component_1.LayoutComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
@@ -63,4 +63,4 @@ describe('NavigationMenuComponent', function () {
         expect(component).toBeTruthy();
     });
 });
-//# sourceMappingURL=navigation-menu.component.spec.js.map
+//# sourceMappingURL=layout.component.spec.js.map

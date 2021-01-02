@@ -1,7 +1,7 @@
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ForaService } from '../../services/fora.service';
+import { ForaService } from '../services/fora.service';
 
 @Component({
   selector: 'app-create-forum',

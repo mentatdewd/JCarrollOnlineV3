@@ -2,11 +2,11 @@ import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ForumThreadService } from '../../../services/forum-thread.service';
+import { ForumThreadService } from '../../services/forum-thread.service';
 import { CreateThreadViewModel } from '../../view-models/create-thread-view';
 
 @Component({
-  selector: 'app-thread-create',
+  selector: 'app-create-thread',
   templateUrl: './create-thread.component.html',
   styleUrls: ['./create-thread.component.scss']
 })
@@ -16,7 +16,7 @@ export class CreateThreadComponent {
   forumTitle: string;
   threadParentId: number;
   createThreadForm: FormGroup;
-  createdThreadId: string;
+  createdThreadId: number;
 
   constructor(private location: Location,
     private route: ActivatedRoute,
@@ -36,7 +36,7 @@ export class CreateThreadComponent {
   }
 
   Submit() {
-    const threadCreateViewModel: CreateThreadViewModel = { title: this.createThreadForm.value['title'], content: this.createThreadForm.value['content'], forumId: this.forumId, rootId: this.threadParentId };
+    const threadCreateViewModel: CreateThreadViewModel = { title: this.createThreadForm.value['title'], content: this.createThreadForm.value['content'], forumId: this.forumId, parentId: this.threadParentId };
 
     this.forumThreadService.createForumThread(threadCreateViewModel).subscribe(result => {
       this.createdThreadId = result;

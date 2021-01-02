@@ -24,57 +24,99 @@ namespace JCarrollOnlineV3.Controllers
         }
 
         // GET: api/ForumThread/5
-        [HttpGet("{threadId}/{rootId?}/{parentId?}")]
-        public async Task<ActionResult<ThreadEntryViewModel[]>> GetThread(int threadId, int? rootId, int? parentId)
+        [HttpGet("{threadId}")]
+        public async Task<ActionResult<ThreadViewModel[]>> GetThread(int threadId)
         {
-            List<ThreadEntryViewModel> forumThreadEntries = new List<ThreadEntryViewModel>();
+            List<ThreadViewModel> forumThreadEntries = new List<ThreadViewModel>();
 
-            List<ThreadEntry> currentThread = new List<ThreadEntry>();
-            currentThread.Add(await _context.ForumThreadEntrys.Where(cf => cf.Id == threadId).Include(te => te.Author).Include(f => f.Forum).FirstOrDefaultAsync());
-
-            if(rootId != null)
-            {
-                await _context.ForumThreadEntrys.Include(cf => cf.Author).Include(cf => cf.Forum).ForEachAsync(cf => currentThread.Add(cf));
-            }
+            List<ThreadEntry> threadEntries = new List<ThreadEntry>();
+            threadEntries.Add(await _context.ForumThreadEntrys.Where(te => te.Id == threadId).Include(te => te.Author).Include(te => te.Children).Include(te => te.Forum).FirstOrDefaultAsync());
 
             // Create the view model
-            foreach (ThreadEntry threadEntry in currentThread)
+            foreach (ThreadEntry threadEntry in threadEntries)
             {
-                ThreadEntryViewModel forumThreadEntry = new ThreadEntryViewModel();
+                ThreadViewModel threadViewModel = new ThreadViewModel();
 
-                forumThreadEntry.InjectFrom(threadEntry);
-                forumThreadEntry.ForumTitle = threadEntry.Forum.Title;
-                forumThreadEntry.Author = threadEntry.Author.UserName;
+                threadViewModel.InjectFrom(threadEntry);
+                threadViewModel.Author = new ApplicationUserViewModel();
+                threadViewModel.Author.InjectFrom(threadEntry.Author);
 
+                threadViewModel.CreatedAt = threadEntry.CreatedAt.ToString();
+                threadViewModel.UpdatedAt = threadEntry.UpdatedAt.ToString();
 
-                forumThreadEntry.Replies = currentThread.Where(forumThreadEntry => forumThreadEntry.Root  != null && forumThreadEntry.Root.Id == threadEntry.Id && forumThreadEntry.Parent != null).Count();
-                IOrderedEnumerable<ThreadEntry> children  = currentThread.Where(m => m.Root != null && m.Id == threadEntry.Id).OrderBy(m => m.UpdatedAt.ToFileTime());
-                
-                if (children.Count() > 0)
+                threadViewModel.Forum = new ForumViewModel();
+                threadViewModel.Forum.InjectFrom(threadEntry.Forum);
+
+                threadViewModel.Replies = threadEntries.Where(forumThreadEntry => forumThreadEntry.Root != null && forumThreadEntry.Root.Id == threadEntry.Id && forumThreadEntry.Parent != null).Count();
+                IOrderedEnumerable<ThreadEntry> children = threadEntries.Where(m => m.Root != null && m.Id == threadEntry.Id).OrderBy(m => m.UpdatedAt.ToFileTime());
+
+                if (threadEntry.Children?.Count() > 0)
                 {
-                    forumThreadEntry.LastReply = children.FirstOrDefault().UpdatedAt;
+                    threadViewModel.LastReply = threadEntry.Children.FirstOrDefault().UpdatedAt.ToString();
+                    List<ThreadViewModel> childViewModels = new List<ThreadViewModel>();
+
+                    foreach (ThreadEntry child in threadEntry.Children)
+                    {
+                        ThreadViewModel childViewModel = new ThreadViewModel();
+
+                        childViewModel.InjectFrom(child);
+                        childViewModels.Add(childViewModel);
+                    }
+
+                    threadViewModel.Children = childViewModels.ToArray();
                 }
                 else
                 {
-                    forumThreadEntry.LastReply = DateTime.Now;
+                    threadViewModel.LastReply = DateTime.Now.ToString();
+                    threadViewModel.Children = new ThreadViewModel[] { };
                 }
 
-                if (forumThreadEntry.Children == null)
-                {
-                    forumThreadEntry.Children = new List<ThreadEntryViewModel>().ToArray();
-                }
-
-                forumThreadEntries.Add(forumThreadEntry);
+                forumThreadEntries.Add(threadViewModel);
             }
 
             return forumThreadEntries.ToArray();
         }
 
+        // GET: api/ForumThread/5
+        //[HttpGet("{threadId}")]
+        //public async Task<ActionResult<ThreadViewModel>> GetThread(int threadId)
+        //{
+        //    ThreadEntry currentThread;
+        //    currentThread = await _context.ForumThreadEntrys.Where(cf => cf.Id == threadId).Include(te => te.Author).Include(f => f.Forum).Include(ch => ch.Children).FirstOrDefaultAsync();
+
+        //    // Create the view model
+        //    ThreadViewModel threadViewModel = new ThreadViewModel();
+
+        //    threadViewModel.InjectFrom(currentThread);
+        //    threadViewModel.Author = new ApplicationUserViewModel();
+        //    threadViewModel.Author.InjectFrom(currentThread.Author);
+
+        //    threadViewModel.Replies = await _context.ForumThreadEntrys.Where(forumThreadEntry => forumThreadEntry.Parent != null && forumThreadEntry.Parent.Id == currentThread.Id && forumThreadEntry.Parent != null).CountAsync();
+
+        //    if (currentThread.Children.Count() > 0)
+        //    {
+        //        threadViewModel.LastReply = currentThread.Children.FirstOrDefault().UpdatedAt.ToString();
+        //        foreach(ThreadEntry child in currentThread.Children)
+        //        {
+        //            ThreadViewModel childViewModel = new ThreadViewModel();
+
+        //            childViewModel.InjectFrom(child);
+        //            threadViewModel.Children.Add(childViewModel);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        threadViewModel.LastReply = DateTime.Now.ToString();
+        //    }
+
+        //    return threadViewModel;
+        //}
+
         // PUT: api/ForumThread/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutThreadEntry(int id, Models.ThreadEntry threadEntry)
+        public async Task<IActionResult> PutThreadEntry(int id, ThreadEntry threadEntry)
         {
             if (id != threadEntry.Id)
             {
@@ -106,46 +148,33 @@ namespace JCarrollOnlineV3.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<ViewModels.ThreadEntryViewModel>> PostThreadEntry([FromBody] ThreadEntryViewModel threadEntryViewModel)
+        public async Task<ActionResult<int>> PostThreadCreate(CreateThreadViewModel createThreadEntryViewModel)
         {
             ThreadEntry threadEntry = new ThreadEntry();
-            int forumId;
-            if(!int.TryParse(threadEntryViewModel.ForumId, out forumId))
-            {
-                throw new InvalidOperationException("forumId is invalid");
-            }
 
             if (ModelState.IsValid)
             {
-
-                int parentId;
-                int rootId;
-
-                if (int.TryParse(threadEntryViewModel.RootId, out rootId))
-                {
-                    threadEntry.Root = await _context.ForumThreadEntrys.FirstOrDefaultAsync(fte => fte.Id == rootId);
-                }
-
-                if (int.TryParse(threadEntryViewModel.ParentThreadId, out parentId))
-                {
-                    threadEntry.Parent = await _context.ForumThreadEntrys.FirstOrDefaultAsync(fte => fte.Id == parentId);
-                }
-
                 string currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 ApplicationUser currentUser = await _context.Users.FirstOrDefaultAsync(x => x.Id == currentUserId).ConfigureAwait(false);
 
                 threadEntry.Author = currentUser;
 
-                threadEntry.InjectFrom(threadEntryViewModel);
+                threadEntry.InjectFrom(createThreadEntryViewModel);
 
                 threadEntry.CreatedAt = DateTime.Now;
                 threadEntry.UpdatedAt = DateTime.Now;
+                threadEntry.Locked = false;
 
-                threadEntry.PostNumber = threadEntryViewModel.ParentThreadId != null
-                    ? await _context.ForumThreadEntrys.Where(m => m.Root.Id == rootId).CountAsync().ConfigureAwait(false) + 1
-                    : 1;
-
-                threadEntry.Forum = await _context.Fora.FirstOrDefaultAsync(f => f.Id == forumId);
+                if (createThreadEntryViewModel.ForumId == -1)
+                {
+                    threadEntry.PostNumber = 1;
+                }
+                else
+                {
+                    threadEntry.Forum = await _context.Fora.FirstOrDefaultAsync(forum => forum.Id == createThreadEntryViewModel.ForumId);
+                    threadEntry.Parent = await _context.ForumThreadEntrys.Include(te => te.Root).Include(te => te.Children).FirstOrDefaultAsync(thread => thread.Id == createThreadEntryViewModel.parentId);
+                    threadEntry.Root = threadEntry.Parent.Root;             
+                }
 
                 _context.ForumThreadEntrys.Add(threadEntry);
 
@@ -167,7 +196,7 @@ namespace JCarrollOnlineV3.Controllers
                 }
             }
 
-            return threadEntryViewModel;
+            return threadEntry.PostNumber;
         }
 
         // DELETE: api/ForumThread/5

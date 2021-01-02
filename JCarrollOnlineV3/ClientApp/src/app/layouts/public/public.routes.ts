@@ -4,9 +4,10 @@ import { AboutComponent } from "../../about/about.component";
 import { ContactComponent } from "../../contact/contact.component";
 import { ForaQueryComponent } from "../../fora/fora-query/fora-query.component";
 import { ForaComponent } from "../../fora/fora/fora.component";
-import { CreateForumComponent } from "../../fora/forum-create/forum-create.component";
-import { ThreadCreateComponent } from "../../fora/threads/thread-create/thread-create.component";
-import { ThreadDeleteComponent } from "../../fora/threads/thread-delete/thread-delete.component";
+import { CreateForumComponent } from "../../fora/create-forum/create-forum.component";
+import { CreateThreadComponent } from "../../fora/threads/create-thread/create-thread.component";
+import { DeleteThreadComponent } from "../../fora/threads/delete-thread/delete-thread.component";
+import { EditThreadComponent } from "../../fora/threads/edit-thread/edit-thread.component";
 import { ThreadReplyComponent } from "../../fora/threads/thread-reply/thread-reply.component";
 import { ThreadComponent } from "../../fora/threads/thread/thread.component";
 import { AnonymousHomeComponent } from "../../homeArea/anonymous-home/anonymous-home.component";
@@ -26,11 +27,12 @@ export const PUBLIC_ROUTES: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AccessGuard] },
   { path: 'fora', component: ForaComponent },
   { path: 'fora-query', component: ForaQueryComponent },
-  { path: 'thread-create', component: ThreadCreateComponent },
-  { path: 'forum-create', component: CreateForumComponent },
+  { path: 'create-thread', component: CreateThreadComponent },
+  { path: 'create-forum', component: CreateForumComponent },
   { path: 'thread', component: ThreadComponent },
   { path: 'thread-reply', component: ThreadReplyComponent },
-  { path: 'thread-delete', component: ThreadDeleteComponent },
+  { path: 'edit-thread', component: EditThreadComponent },
+  { path: 'delete-thread', component: DeleteThreadComponent },
   { path: 'anonymous-home', component: AnonymousHomeComponent },
   { path: 'users', component: UsersComponent },
   { path: 'fora', component: ForaComponent },
@@ -40,9 +42,4 @@ export const PUBLIC_ROUTES: Routes = [
   { path: 'sandbox', component: SandboxComponent },
   { path: 'yellowstone-slideshow', component: YellowstoneSlideshowComponent },
   { path: 'fora-query', component: ForaQueryComponent },
-  { path: 'thread-create', component: ThreadCreateComponent },
-  { path: 'forum-create', component: CreateForumComponent },
-  { path: 'thread', component: ThreadComponent },
-  { path: 'thread-reply', component: ThreadReplyComponent },
-  { path: 'thread-delete', component: ThreadDeleteComponent }
 ];

@@ -57,7 +57,7 @@
 </mat-table>
 
 <div class="col text-center">
-  <a *ngIf="this.isAuthenticated == true" [routerLink]="['/thread-create']" [queryParams]="{forumId: this.forumId, forumTitle: this.forumTitle}" skipLocationChange="true" true queryParamsHandling="merge" class="btn btn-large btn-primary text-center">
+  <a *ngIf="this.isAuthenticated == true" [routerLink]="['/create-thread']" [queryParams]="{forumId: this.forumId, forumTitle: this.forumTitle}" skipLocationChange="true" true queryParamsHandling="merge" class="btn btn-large btn-primary text-center">
     <b>Create New Thread</b>
   </a>
 </div>

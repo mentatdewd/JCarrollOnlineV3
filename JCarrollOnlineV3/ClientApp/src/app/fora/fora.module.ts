@@ -12,13 +12,16 @@ import { ThreadItemContentComponent } from './threads/thread-item-content/thread
 import { ThreadReplyComponent } from './threads/thread-reply/thread-reply.component';
 import { EditThreadComponent } from './threads/edit-thread/edit-thread.component';
 import { DeleteThreadComponent } from './threads/delete-thread/delete-thread.component';
-import { ForaService } from '../services/fora.service';
+import { ForaService } from '../fora/services/fora.service';
 import { AppRoutingModule } from '../app-routing.module';
 
 import { MatTableModule } from '@angular/material/table';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatTreeModule } from '@angular/material/tree';
+import { ForumThreadService } from './services/forum-thread.service';
+import { CurrentThreadService } from './services/current-thread.service';
 
 @NgModule({
   declarations: [
@@ -36,7 +39,9 @@ import { MatTreeModule } from '@angular/material/tree';
     DeleteThreadComponent,
   ],
   providers: [
-    ForaService
+    ForaService,
+    ForumThreadService,
+    CurrentThreadService
   ],
   imports: [
     CommonModule,
@@ -45,7 +50,8 @@ import { MatTreeModule } from '@angular/material/tree';
     FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    MatTreeModule
+    MatTreeModule,
+    MatInputModule
   ]
 })
 

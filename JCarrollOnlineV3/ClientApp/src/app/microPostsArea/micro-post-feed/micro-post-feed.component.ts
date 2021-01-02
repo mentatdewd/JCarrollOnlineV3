@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { AuthorizeService } from '../../../api-authorization/authorize.service';
+import { MicroPostViewModel } from '../view-models/micropost-view';
 
 @Component({
   selector: 'app-micro-post-feed',
@@ -16,7 +17,7 @@ export class MicroPostFeedComponent implements OnInit {
     content: "",
   };
 
-  microPosts: MicroPostsViewModel = { microPosts: [this.microPost] };
+  microPosts: MicroPostViewModel[];
   isContentLoaded = false;
   httpClient: HttpClient;
   baseUrlString: string;
@@ -29,22 +30,11 @@ export class MicroPostFeedComponent implements OnInit {
   ngOnInit(): void {
     console.log("In micropostfeed constructor")
 
-    this.httpClient.get<MicroPostsViewModel>(this.baseUrlString + 'api/microposts/').subscribe(result => {
+    this.httpClient.get<MicroPostViewModel[]>(this.baseUrlString + 'api/microposts/').subscribe(result => {
       console.log("Setting isContentLoaded: true");
       this.isContentLoaded = true;
       this.microPosts = result;
     });
 
   }
-}
-
-interface MicroPostsViewModel {
-  microPosts: MicroPostViewModel[];
-}
-
-interface MicroPostViewModel {
-  author: string;
-  email: string;
-  content: string;
-  createdAt: string;
 }

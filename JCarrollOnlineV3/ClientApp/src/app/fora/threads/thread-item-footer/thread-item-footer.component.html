@@ -1,17 +1,16 @@
 <div class="forum_thread_footer">
   <footer>
     <div class="footer_back_to_top_link">
-      <!--<a *ngIf="this.isAuthenticated == true" [routerLink]="['/thread-reply']" [queryParams]="{forumId: passedForumId, threadParentId: 0}" skipLocationChange="true" true queryParamsHandling="merge">-->
       Back to the top
     </div>
     <div *ngIf="this.isAuthenticated == true" class="action_links">
       <div class="edit_reply">
-        <a [routerLink]="['/thread-edit']" [queryParams]="{forumId: passedForumId, threadParentId: 0}" skipLocationChange="true" true queryParamsHandling="merge">Edit </a>
+        <a [routerLink]="['/thread-edit']" [queryParams]="{threadId: this.threadItemId}" skipLocationChange="true" true queryParamsHandling="merge">Edit </a>
         |
-        <a [routerLink]="['/thread-reply']" skipLocationChange="true" true queryParamsHandling="merge"> Reply</a>
+        <a [routerLink]="['/thread-reply']" [queryParams]="{threadId: this.threadItemId}" skipLocationChange="true" true queryParamsHandling="merge"> Reply</a>
       </div>
       <div class="delete">
-        <a [routerLink]="['/thread-delete']" [queryParams]="{forumId: passedForumId, threadParentId: 0}" skipLocationChange="true" true queryParamsHandling="merge">Delete</a>
+        <a [routerLink]="['/thread-delete']" [queryParams]="{threadId: this.threadItemId}" skipLocationChange="true" true queryParamsHandling="merge">Delete</a>
       </div>
     </div>
   </footer>

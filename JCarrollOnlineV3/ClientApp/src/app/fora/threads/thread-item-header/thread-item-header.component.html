@@ -1,25 +1,25 @@
 <div class="forum_thread_header">
   <header>
-    <div class="header_title">
-      <h3>{{node.title}}</h3>
-    </div>
     <div class="user_info">
-      {{node.author}}
+      {{this.author | async}}
       <div class="post_count">
-        {{node.postCount}} Posts: {{node.postNumber}}
+        {{this.postCount | async}} Posts: {{this.postNumber | async}}
       </div>
+    </div>
+    <div class="header_title">
+      <h3>{{this.title | async}}</h3>
     </div>
     <div class="threadinfo">
       <div class="reply_to">
-        <div class="original_post" ngif="!node.parent">
+        <div class="original_post" ngif="this.parent === undefined | async">
           Original Post
         </div>
-        <div class="response_to" ngif="node.parent">
+        <div class="response_to" ngif="this.parent !== undefined | async">
           I think I have a parent
-          Response to {{node.parent?.postNumber}}
+          Response to {{parentPostNumber | async}}
         </div>
         <div class="created_at">
-          {{node.createdAt}}
+          {{this.createdAt | async}}
         </div>
       </div>
     </div>

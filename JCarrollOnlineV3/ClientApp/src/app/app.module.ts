@@ -8,6 +8,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatInputModule } from '@angular/material/input';
+import { MatSidenavModule } from '@angular/material/sidenav';
+//import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { GravatarModule } from 'ngx-gravatar';
 
@@ -40,7 +43,8 @@ import { MarinersRssFeedComponent } from './mariners-rss-feed/mariners-rss-feed.
 import { AppRoutingModule } from './app-routing.module';
 import { NavigationModule } from './navigation/navigation.module';
 import { ForaModule } from './fora/fora.module';
-import { ForaService } from './services/fora.service';
+import { ForaService } from './fora/services/fora.service';
+import { LayoutComponent } from './layout/layout.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +74,7 @@ import { ForaService } from './services/fora.service';
     MicroPostItemListComponent,
     DateAgoPipe,
     MarinersRssFeedComponent,
+    LayoutComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -77,6 +82,7 @@ import { ForaService } from './services/fora.service';
     GravatarModule,
     MatCardModule,
     MatFormFieldModule,
+    MatInputModule,
     FormsModule,
     MatListModule,
     MatDividerModule,
@@ -86,7 +92,9 @@ import { ForaService } from './services/fora.service';
     BrowserAnimationsModule,
     AppRoutingModule,
     NavigationModule,
-    ForaModule
+    ForaModule,
+    MatSidenavModule,
+    //MatToolbarModule
   ],
   exports: [
   ],

@@ -1,37 +1,21 @@
 <mat-toolbar color="primary">
-  <div fxHide.gt-xs>
-    <button mat-icon-button (click)="this.onToggleSidenav()">
+  <div fxHide.gt-md>
+    <button mat-icon-button (click)="onToggleSidenav()">
       <mat-icon>menu</mat-icon>
     </button>
   </div>
-  <div>
-    <a routerLink="/home" class="navigationItem">JCarrollOnline</a>
+  <a routerLink="/home" class="navigationItem">JCarrollOnline</a>
+  <div fxShow="true" fxHide.lt-lg="true">
+    <a routerLink="/users" class="navigationItem" fxHide.xs>Users</a>
+    <a routerLink="/fora" class="navigationItem" fxHide.xs>Fora</a>
+    <a routerLink="/profile" class="navigationItem" fxHide.xs>Profile</a>
+    <a routerLink="/about" class="navigationItem" fxHide.xs>About</a>
+    <a routerLink="/contact" class="navigationItem" fxHide.xs>Contact</a>
+    <a routerLink="/sandbox" class="navigationItem" fxHide.xs>Sandbox</a>
+    <a routerLink="/yellowstone-slideshow" class="navigationItem" fxHide.xs>Yellowstone Slideshow</a>
+    <a routerLink="/blog" class="navigationItem" fxHide.xs>Blog</a>
   </div>
-  <div>
-    <a routerLink="/users" class="navigationItem">Users</a>
-  </div>
-  <div>
-    <a routerLink="/fora" class="navigationItem">Fora</a>
-  </div>
-  <div>
-    <a routerLink="/profile" class="navigationItem">Profile</a>
-  </div>
-  <div>
-    <a routerLink="/about" class="navigationItem">About</a>
-  </div>
-  <div>
-    <a routerLink="/contact" class="navigationItem">Contact</a>
-  </div>
-  <div>
-    <a routerLink="/sandbox" class="navigationItem">Sandbox</a>
-  </div>
-  <div>
-    <a routerLink="/yellowstone-slideshow" class="navigationItem">Yellowstone Slideshow</a>
-  </div>
-  <div>
-    <a routerLink="/blog" class="navigationItem">Blog</a>
-  </div>
-  <div *ngIf="this.isAuthenticated" fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
+  <div *ngIf="this.isAuthenticated" fxFlex fxLayout fxLayoutAlign="end" fxHide.lt-lg="true">
     <ul fxLayout fxLayoutGap="15px" class="navigation-items">
       <li>
         <a [routerLink]='["/authentication/profile"]' title="Manage">Hello {{ userName | async }}</a>
@@ -41,7 +25,7 @@
       </li>
     </ul>
   </div>
-  <div *ngIf="!(this.isAuthenticated)" fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
+  <div *ngIf="!(this.isAuthenticated)" fxFlex fxLayout fxLayoutAlign="end" fxHide.lt-lg="true">
     <ul fxLayout fxLayoutGap="15px" class="navigation-items">
       <li>
         <a [routerLink]='["/authentication/register"]'>Register</a>

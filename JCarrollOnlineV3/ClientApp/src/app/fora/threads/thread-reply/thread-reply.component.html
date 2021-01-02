@@ -1,2 +1,21 @@
 <p>thread-reply works!</p>
-<app-thread-item [node]="this.threadData"></app-thread-item>
+Reply to:
+{{this.content | async}}
+<p></p>
+<div class="container">
+  <form [formGroup]="threadReplyForm" (ngSubmit)="Submit()">
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input name="title" type="text" class="form-control" id="title"
+             required placeholder="Title" formControlName="title">
+    </div>
+
+    <div class="form-group">
+      <label for="description">Reply</label>
+      <input type="text" class="form-control" id="content"
+             placeholder="Reply" formControlName="content" />
+    </div>
+
+    <button class="btn btn-primary" type="submit" [disabled]="!threadReplyForm.valid">Submit Reply</button>
+  </form>
+</div>

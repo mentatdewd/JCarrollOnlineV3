@@ -6,9 +6,10 @@ var about_component_1 = require("../../about/about.component");
 var contact_component_1 = require("../../contact/contact.component");
 var fora_query_component_1 = require("../../fora/fora-query/fora-query.component");
 var fora_component_1 = require("../../fora/fora/fora.component");
-var forum_create_component_1 = require("../../fora/forum-create/forum-create.component");
-var thread_create_component_1 = require("../../fora/threads/thread-create/thread-create.component");
-var thread_delete_component_1 = require("../../fora/threads/thread-delete/thread-delete.component");
+var create_forum_component_1 = require("../../fora/create-forum/create-forum.component");
+var create_thread_component_1 = require("../../fora/threads/create-thread/create-thread.component");
+var delete_thread_component_1 = require("../../fora/threads/delete-thread/delete-thread.component");
+var edit_thread_component_1 = require("../../fora/threads/edit-thread/edit-thread.component");
 var thread_reply_component_1 = require("../../fora/threads/thread-reply/thread-reply.component");
 var thread_component_1 = require("../../fora/threads/thread/thread.component");
 var anonymous_home_component_1 = require("../../homeArea/anonymous-home/anonymous-home.component");
@@ -27,11 +28,12 @@ exports.PUBLIC_ROUTES = [
     { path: 'home', component: home_component_1.HomeComponent, canActivate: [access_guard_1.AccessGuard] },
     { path: 'fora', component: fora_component_1.ForaComponent },
     { path: 'fora-query', component: fora_query_component_1.ForaQueryComponent },
-    { path: 'thread-create', component: thread_create_component_1.ThreadCreateComponent },
-    { path: 'forum-create', component: forum_create_component_1.CreateForumComponent },
+    { path: 'create-thread', component: create_thread_component_1.CreateThreadComponent },
+    { path: 'create-forum', component: create_forum_component_1.CreateForumComponent },
     { path: 'thread', component: thread_component_1.ThreadComponent },
     { path: 'thread-reply', component: thread_reply_component_1.ThreadReplyComponent },
-    { path: 'thread-delete', component: thread_delete_component_1.ThreadDeleteComponent },
+    { path: 'edit-thread', component: edit_thread_component_1.EditThreadComponent },
+    { path: 'delete-thread', component: delete_thread_component_1.DeleteThreadComponent },
     { path: 'anonymous-home', component: anonymous_home_component_1.AnonymousHomeComponent },
     { path: 'users', component: users_component_1.UsersComponent },
     { path: 'fora', component: fora_component_1.ForaComponent },
@@ -41,10 +43,5 @@ exports.PUBLIC_ROUTES = [
     { path: 'sandbox', component: sandbox_component_1.SandboxComponent },
     { path: 'yellowstone-slideshow', component: yellowstone_slideshow_component_1.YellowstoneSlideshowComponent },
     { path: 'fora-query', component: fora_query_component_1.ForaQueryComponent },
-    { path: 'thread-create', component: thread_create_component_1.ThreadCreateComponent },
-    { path: 'forum-create', component: forum_create_component_1.CreateForumComponent },
-    { path: 'thread', component: thread_component_1.ThreadComponent },
-    { path: 'thread-reply', component: thread_reply_component_1.ThreadReplyComponent },
-    { path: 'thread-delete', component: thread_delete_component_1.ThreadDeleteComponent }
 ];
 //# sourceMappingURL=public.routes.js.map

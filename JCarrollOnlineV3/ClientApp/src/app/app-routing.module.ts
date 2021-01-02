@@ -17,6 +17,7 @@ import { SandboxComponent } from "./sandbox/sandbox.component";
 import { ProfileComponent } from "./usersArea/profile/profile.component";
 import { UsersComponent } from "./usersArea/users/users.component";
 import { YellowstoneSlideshowComponent } from "./yellowstone-slideshow/yellowstone-slideshow.component";
+import { EditThreadComponent } from "./fora/threads/edit-thread/edit-thread.component";
 
 const APP_ROUTES: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full', },
@@ -35,6 +36,7 @@ const APP_ROUTES: Routes = [
   { path: 'thread', component: ThreadComponent },
   { path: 'thread-reply', component: ThreadReplyComponent },
   { path: 'delete-thread', component: DeleteThreadComponent },
+  { path: 'edit-thread', component: EditThreadComponent },
   { path: 'anonymous-home', component: AnonymousHomeComponent },
   { path: 'users', component: UsersComponent },
   { path: 'fora', component: ForaComponent },

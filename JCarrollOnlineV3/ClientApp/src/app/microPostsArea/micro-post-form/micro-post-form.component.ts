@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { AuthorizeService } from '../../../api-authorization/authorize.service';
+import { CreateMicroPostViewModel } from '../view-models/create-micropost-view';
 
 @Component({
   selector: 'app-micro-post-form',
@@ -11,7 +12,7 @@ import { AuthorizeService } from '../../../api-authorization/authorize.service';
 export class MicroPostFormComponent {
   private content: string;
   microPostForm: FormGroup;
-  createPostViewModel: CreatePostViewModel = { Content: "" };
+  createPostViewModel: CreateMicroPostViewModel = { Content: "" };
   httpClient: HttpClient;
   urlBase: string;
 
@@ -29,7 +30,7 @@ export class MicroPostFormComponent {
     const body = JSON.stringify(this.createPostViewModel);
     const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
 
-    this.httpClient.post<CreatePostViewModel>(this.urlBase + 'api/microposts/', body, { headers: headers }).subscribe(result => {
+    this.httpClient.post<CreateMicroPostViewModel>(this.urlBase + 'api/microposts/', body, { headers: headers }).subscribe(result => {
       this.createPostViewModel = result;
       this.createPostViewModel.Content = "";
       this.microPostForm.controls['content'].setValue("");
@@ -37,6 +38,3 @@ export class MicroPostFormComponent {
   }
 }
 
-interface CreatePostViewModel {
-  Content: string;
-}

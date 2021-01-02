@@ -1,12 +1,9 @@
-<p>micro-post-form works!</p>
 <div class="container">
   <form [formGroup]="microPostForm" (ngSubmit)="onSubmit(microPostForm.value)">
     <div class="form-group">
       <section>
         <mat-form-field style="width: 100%">
-          <textarea matInput class="form-control" formControlName="content" rows="5" placeholder="Ex. this is example..."></textarea>
-          <!--<input type="text" class="form-control" id="title"
-           placeholder="Title" formControlName="title" />-->
+          <textarea matInput type="text" class="form-control" formControlName="content" rows="5" placeholder="Type content here..."></textarea>
         </mat-form-field>
       </section>
       <section>

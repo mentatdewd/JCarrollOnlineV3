@@ -1,10 +1,10 @@
 import { HttpHeaders } from '@angular/common/http'
 import { Inject, Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
-import { CreateForumViewModel } from '../fora/view-models/create-forum-view'
-import { ForaViewModel } from '../fora/view-models/fora-view'
-import { ForumThreadsViewModel } from '../fora/view-models/forum-threads-view'
-import { HttpClientService, HttpOptions } from './http-client.service'
+import { CreateForumViewModel } from '../../fora/view-models/create-forum-view'
+import { ForaViewModel } from '../../fora/view-models/fora-view'
+import { ForumThreadsViewModel } from '../../fora/view-models/forum-threads-view'
+import { HttpClientService, HttpOptions } from '../../services/http-client.service'
 
 @Injectable({
   providedIn: 'root',

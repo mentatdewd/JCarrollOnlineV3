@@ -40,6 +40,8 @@
 
   <ItemGroup>
     <None Remove="ClientApp\src\app\app-routing.module.ts" />
+    <None Remove="ClientApp\src\app\blogArea\view-models\blog-item-view.ts" />
+    <None Remove="ClientApp\src\app\fora\view-models\ApplicationUserViewMode.ts" />
     <None Remove="ClientApp\src\app\fora\view-models\create-forum-view.ts" />
     <None Remove="ClientApp\src\app\fora\view-models\create-thread-view.ts" />
     <None Remove="ClientApp\src\app\fora\view-models\fora-view.ts" />
@@ -48,6 +50,8 @@
     <None Remove="ClientApp\src\app\layouts\public\public.routes.ts" />
     <None Remove="ClientApp\src\app\layouts\secure\secure.routes.ts" />
     <None Remove="ClientApp\src\app\mariners-rss-feed\news-rss.ts" />
+    <None Remove="ClientApp\src\app\microPostsArea\view-models\create-micropost-view.ts" />
+    <None Remove="ClientApp\src\app\microPostsArea\view-models\micropost-view.ts" />
   </ItemGroup>
 
   <ItemGroup>

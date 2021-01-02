@@ -60,30 +60,31 @@ namespace JCarrollOnlineV3.Controllers
         }
 
         [HttpGet("{forumId}")]
-        public async Task<ActionResult<ThreadEntryViewModel[]>> GetForum(int forumId)
+        public async Task<ActionResult<ThreadViewModel[]>> GetForum(int forumId)
         {
-            List<ThreadEntryViewModel> forumThreadEntries = new List<ThreadEntryViewModel>();
+            List<ThreadViewModel> forumThreadEntries = new List<ThreadViewModel>();
 
             Forum currentForum = await _context.Fora.Include(i => i.ForumThreadEntries).ThenInclude(i => i.Author).FirstOrDefaultAsync(cf => cf.Id == forumId);
 
             // Create the view model
-            foreach (Models.ThreadEntry threadEntry in currentForum.ForumThreadEntries)
+            foreach (ThreadEntry threadEntry in currentForum.ForumThreadEntries)
             {
-                ThreadEntryViewModel forumThreadEntryViewModel = new ThreadEntryViewModel();
+                ThreadViewModel forumThreadEntryViewModel = new ThreadViewModel();
 
                 forumThreadEntryViewModel.InjectFrom(threadEntry);
 
-                forumThreadEntryViewModel.Author = threadEntry.Author.UserName;
+                forumThreadEntryViewModel.Author = new ApplicationUserViewModel();
+                forumThreadEntryViewModel.Author.InjectFrom(threadEntry);
 
                 forumThreadEntryViewModel.Replies = currentForum.ForumThreadEntries.Where(forumThreadEntry => forumThreadEntry.Root?.Id == threadEntry.Id && forumThreadEntry.Parent != null).Count();
                 IOrderedEnumerable<ThreadEntry> interim = currentForum.ForumThreadEntries.Where(m => m.Root?.Id == threadEntry.Id).OrderBy(m => m.UpdatedAt.ToFileTime());
                 if (interim.Count() > 0)
                 {
-                    forumThreadEntryViewModel.LastReply = interim.FirstOrDefault().UpdatedAt;
+                    forumThreadEntryViewModel.LastReply = interim.FirstOrDefault().UpdatedAt.ToString();
                 }
                 else
                 {
-                    forumThreadEntryViewModel.LastReply = DateTime.Now;
+                    forumThreadEntryViewModel.LastReply = DateTime.Now.ToString();
                 }    
 
                 forumThreadEntries.Add(forumThreadEntryViewModel);

@@ -5,9 +5,10 @@ import { MatSort } from '@angular/material/sort';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { ActivatedRoute } from '@angular/router';
 //import { ThreadTreeFunctionService } from '../thread-tree-function.service';
-import { of as observableOf } from 'rxjs';
+import { from, of as observableOf, of } from 'rxjs';
 import { AuthorizeService } from '../../../../api-authorization/authorize.service';
-import { ForumThreadService } from '../../../services/forum-thread.service';
+import { ForumThreadService } from '../../services/forum-thread.service';
+import { CurrentThreadService } from '../../services/current-thread.service';
 import { ThreadViewModel } from '../../view-models/thread-view';
 
 @Component({
@@ -20,34 +21,32 @@ export class ThreadComponent implements OnInit {
   nestedDataSource: MatTreeNestedDataSource<ThreadViewModel>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  public forumTitle: string;
-  public rootId: number;
-  public threadId: number;
-  public threadParentId: number;
+  thread: ThreadViewModel;
+  threadId: number;
+  forumTitle: string;
 
   constructor(private authorizeService: AuthorizeService,
     private route: ActivatedRoute,
-    //private threadTreeFunctionService: ThreadTreeFunctionService,
+    private _currentThreadService: CurrentThreadService,
     private threadService: ForumThreadService) {
     this.route.queryParams.subscribe(params => {
       this.threadId = params.threadId;
-      this.rootId = params.rootId;
-      this.threadParentId = params.threadParentId;
       this.forumTitle = params.forumTitle;
       console.log(params);
     });
-}
+  }
 
   ngOnInit() {
     this.nestedTreeControl = new NestedTreeControl<ThreadViewModel>(this._getChildren);
     this.nestedDataSource = new MatTreeNestedDataSource();
     this.threadService.getForumThread(this.threadId.toString()).subscribe(result => {
       this.nestedDataSource.data = result;
+      this._currentThreadService.sendMessage(new Map(this.nestedDataSource.data.map(i => [i.id, of(i)])));
       console.log("Received thread data");
     }, error => console.error(error));
   }
 
-  private _getChildren = (node: ThreadViewModel) => observableOf(node.children);
+  private _getChildren = (threadItem: ThreadViewModel) => observableOf(threadItem.children);
   hasNestedChild = (_: number, nodeData: ThreadViewModel) => {
     console.log("Checking for nested children");
     return nodeData.children.length > 0;

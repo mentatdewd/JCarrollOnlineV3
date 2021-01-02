@@ -1,12 +1,15 @@
+import { ApplicationUserViewModel } from "../../usersArea/view-models/ApplicationUserViewMode";
+import { ForaViewModel } from "./fora-view";
+
 export interface ThreadViewModel {
   id: number;
   rootId?: number;
   parent?: ThreadViewModel;
-  parentPostNumber: number;
   children?: ThreadViewModel[];
-  forum: ThreadViewModel;
+  forum: ForaViewModel;
   postCount: number;
-  author: string;
+  replies: number;
+  author: ApplicationUserViewModel;
   content: string;
   title: string;
   createdAt: string;
@@ -14,4 +17,5 @@ export interface ThreadViewModel {
   postNumber: number;
   locked: boolean;
   imageList: string[];
+  lastReply: string;
 }

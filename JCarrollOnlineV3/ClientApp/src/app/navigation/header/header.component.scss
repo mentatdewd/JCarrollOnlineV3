@@ -1,3 +1,8 @@
+.navigationItem {
+    padding: 10px;
+    margin: 10px;
+}
+
 a {
   text-decoration: none;
   color: white;
@@ -21,9 +26,4 @@ mat-toolbar {
   mat-toolbar {
     border-radius: 0px;
   }
-}
-
-.navigationItem {
-    padding: 10px;
-    margin: 10px;
 }
